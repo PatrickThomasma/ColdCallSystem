@@ -9,10 +9,12 @@ If on Linux Ubuntu use sudo apt-get install python3-tk for tkinter Module
 from tkinter import *
 
 
+
 root = Tk()
 
-MyLabel = Label (root, text="Hello World!")
+MyLabel = Label (root, text = "Hello World!")
 MyLabel.pack()
+
 
 root.mainloop()
 
