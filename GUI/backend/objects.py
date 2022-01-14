@@ -1,5 +1,8 @@
 """
 This file will initialize the student and Queue from an input file that has a list of Students and their ID numbers
+
+Author: Patrick Thomasma
+Last modified: 01/14/2022
 """
 
 class Student:

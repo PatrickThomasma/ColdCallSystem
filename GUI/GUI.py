@@ -1,8 +1,8 @@
 """
 This will be the main GUI for students
 
-Author:
-Last Modified:
+Author: Patrick Thomasma
+Last Modified: 01/14/2022
 
 If on Linux Ubuntu use sudo apt-get install python3-tk for tkinter Module
 """
