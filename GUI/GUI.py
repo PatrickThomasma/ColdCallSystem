@@ -18,3 +18,9 @@ MyLabel.pack()
 
 root.mainloop()
 
+
+"""
+References:
+https://www.youtube.com/watch?v=yQSEXcf6s2I&list=PLCC34OHNcOtoC6GglhF3ncJ5rLwQrLGnV (Ttinker tutorial)
+https://docs.python.org/3/library/tkinter.html
+https://www.geeksforgeeks.org/python-tkinter-tutorial/
