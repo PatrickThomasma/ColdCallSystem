@@ -1,8 +1,8 @@
 """
 This file will initialize the student and Queue from an input file that has a list of Students and their ID numbers
 
-Author: Patrick Thomasma
-Last modified: 01/16/2022
+Author: Patrick Thomasma, Kassandra Morando
+Last modified: 01/19/2022
 """
 
 class Student:
@@ -15,9 +15,23 @@ class Student:
         self.reveal = revealCode
         self.LF = LF
 
-    def printstudent(self):
-        print("Student:",self.first, self.last, "ID:", self.ID)
+    def student_display(self):
+	return(self.first,self.last)
 
+    def printstudent(self):
+        print("Student:\t",self.first, self.last, "ID:\t", self.ID,"Email adress:\t",self.email,"Phonetic_spelling:\t",self.phonetic,"Reveal code:",self.reveal,"LF:",self.LV)
+
+class Flag():
+    def __init__(self):
+	self.flagqueue=[]
+
+    def is_flagged(self,flag,student):
+	#This will add the student to a queue if they are flagged
+	if flag==1:
+		self.flagqueue.append(student)
+
+class roster():
+    pass
 
 class Queue:
     def __init__(self):
@@ -55,7 +69,7 @@ class Queue:
 student1 = Student("Patrick", "Thomasma", 951623133, "pthomasm@uoregon.edu", "Pat-T-rick", [], 0)
 student2 = Student("Athony", "Hornoff", 23131142, "noff@uoregon.edu", "hor-noff", [], 0)
 student3 = Student("David", "Han", 95172932, "dhan@uoregon.edu", "Day-vid", [],0)
-student4 = Student("Kassandra", "Morano", "95321421", "Kmoranda@uoregon.edu", "Kass-an-dra", [],0)
+student4 = Student("Kassandra", "Morando", "95321421", "Kmorando@uoregon.edu", "Kass-an-dra", [],0)
 
 test = Queue()
 test.enqueue(student1)
