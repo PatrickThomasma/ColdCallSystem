@@ -14,7 +14,7 @@ import os
 # Test this list, then test sample file, then test through backened pull
 
 # exRandomList = ["AA", "AB", "AC", "AD"]
-
+#listIndex will keep track of which student the user currently has selected
 listIndex = 0
 
 #Runs the window
@@ -23,6 +23,7 @@ listIndex = 0
 #     toggle = Label(root, text=studentList[n])
 #     toggle.pack()
 
+#Realised that we needed to update the buttons after they're removed so it was made into its own function instead of making up/down large functions
 def update_button():
     global listIndex
     global buttons
@@ -32,7 +33,7 @@ def update_button():
         buttons[i].config({"text": DockList[i]})
 
 
-
+#Working up function but methods are kind of messy and obviously not finalized since its using a test version of FILE I/O
 def upKey(event):
     global listIndex
     global buttons
@@ -48,7 +49,7 @@ def upKey(event):
     update_button()
 
 
-
+#Not implemented yet
 def downKey(event):
     global listIndex
     global buttons
@@ -111,6 +112,8 @@ myLabel1.grid(row = 0, column = 1, padx = 5, pady = 5)
 ##myLabel4.grid(row=0, column=3)
 
 # from my understanding of the project we will only need 4 buttons as those are the students who will be displayed in the cold call
+
+#Should change the background color here maybe? He specifies how the coloring should look a little bit on SRS
 button0 = Label(root, text = DockList[0], bg = "Blue", fg = "white", padx = 30, relief = RAISED, width = 10, font = ("Arial",12))
 button0.grid(row = 1, column = 1, padx = 5, pady = 5)
 
@@ -139,7 +142,7 @@ button0.config({"foreground": "Black"})
 # if key == Key.backspace:
 #     exit()
 
-
+#These functions will bind the functions to keyboard and is main control for user
 root.bind("<Left>",leftKey)
 root.bind("<Right>",rightKey)
 root.bind("<Up>",upKey)
