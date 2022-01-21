@@ -7,14 +7,25 @@ Author: Patrick Thomasma
 Last modified: 01/14/2022
 """
 
-from backend.objects import Student, Queue
+from objects import Student, Queue , Roster
+import os
+import sys
 
 def Roster():
-    Roster = Queue()
-    roster_file=open("roster.txt","r")
-    for line in roster_file:
-	student=line.strip()
-    	Roster.enqueue(student)
+    deck = Queue()
+    StudentList = []
+    with open(os.path.join(sys.path[0], "Samplefile.txt") , "r") as f:
+        f = f.readlines()
+        for i in range (0 , len(f)):
+            #StudentList.append(f)
+            studentclass = f[i].split()
+            StudentList.append(Student(studentclass[0],studentclass[1],studentclass[2],studentclass[3],studentclass[4],studentclass[5],studentclass[6]))
+            deck.enqueue(studentclass[0] + ' ' + studentclass[1])
+
+    print(StudentList[0].printstudent())
+
+
+
     """Roster = Queue()
     Student1 = ....
     Student2 = ....
@@ -27,6 +38,8 @@ def Roster():
     Roster.enqueue(student4)
     Roster.enqueue(student5)"""
     return Roster
+
+'''
 
 def deck(roster):
     deck = Queue()
@@ -45,6 +58,8 @@ def summary_file():
     #See how many times people paricipated,etc.
     pass
 
+
+
 """def pickstudent(ondeck,roster):
     if deck > 4:
         "Error Handling"
@@ -53,3 +68,12 @@ def summary_file():
 def pickstudent(ondeck, roster):
     new_roster=random.shuffle(roster)
     return new_roster[0]"""
+
+
+'''
+def main():
+    Roster()
+    return
+
+if __name__ == "__main__":
+    main()

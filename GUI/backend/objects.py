@@ -16,21 +16,21 @@ class Student:
         self.LF = LF
 
     def student_display(self):
-	return(self.first,self.last)
+        return (self.first, self.last)
 
     def printstudent(self):
-        print("Student:\t",self.first, self.last, "ID:\t", self.ID,"Email adress:\t",self.email,"Phonetic_spelling:\t",self.phonetic,"Reveal code:",self.reveal,"LF:",self.LV)
+        print("Student:\t",self.first, self.last, "ID:\t", self.ID,"Email adress:\t",self.email,"Phonetic_spelling:\t",self.phonetic,"Reveal code:",self.reveal,"LF:",self.LF)
 
 class Flag():
     def __init__(self):
-	self.flagqueue=[]
+        self.flagqueue = []
 
     def is_flagged(self,flag,student):
 	#This will add the student to a queue if they are flagged
-	if flag==1:
-		self.flagqueue.append(student)
+        if flag==1:
+            self.flagqueue.append(student)
 
-class roster():
+class Roster():
     pass
 
 class Queue:
