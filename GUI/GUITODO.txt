@@ -1,0 +1,8 @@
+- Waiting on backend finishing to implement proper FILE I/O
+- Window has to stay in front of any application
+- System sits on background but has to be seen?
+- Import and outputing files, needs to check if file is correct format
+- Need key for Keyboard assignments
+- Has to open not from terminal
+
+
