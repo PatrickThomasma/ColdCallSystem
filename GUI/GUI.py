@@ -23,19 +23,19 @@ listIndex = 0
 #     toggle = Label(root, text=studentList[n])
 #     toggle.pack()
 
-def update_slots():
+def update_button():
     global listIndex
-    global slots
+    global buttons
     global StudentList
     global DockList
     for i in range(4):
-        slots[i].config({"text": DockList[i]})
+        buttons[i].config({"text": DockList[i]})
 
 
 
 def upKey(event):
     global listIndex
-    global slots
+    global buttons
     global StudentList
     global flags
     global DockList
@@ -45,38 +45,38 @@ def upKey(event):
     remover += 1
     DockList.append(StudentList[remover])
     flags[listIndex] += 1
-    update_slots()
+    update_button()
 
 
 
 def downKey(event):
     global listIndex
-    global slots
+    global buttons
     global StudentList
     print(StudentList)
 
 
 def leftKey(event): #update list Index and color slots so its consistent with each key press
     global listIndex
-    global slots
+    global buttons
     if listIndex == 0:
         return
-    slots[listIndex].config({"background": "Blue"})
-    slots[listIndex].config({"foreground": "White"})
+    buttons[listIndex].config({"background": "Blue"})
+    buttons[listIndex].config({"foreground": "White"})
     listIndex -= 1
-    slots[listIndex].config({"background": "White"})
-    slots[listIndex].config({"foreground": "Black"})
+    buttons[listIndex].config({"background": "White"})
+    buttons[listIndex].config({"foreground": "Black"})
 
 def rightKey(event): #update list index until it hits the end of the list, keep coloring of buttons consistent with other key presses
     global listIndex
-    global slots
+    global buttons
     if listIndex == 3:
         return
-    slots[listIndex].config({"background": "Blue"}) #configs will highlight selected button and change it back when user moves on from the button
-    slots[listIndex].config({"foreground": "White"})
+    buttons[listIndex].config({"background": "Blue"}) #configs will highlight selected button and change it back when user moves on from the button
+    buttons[listIndex].config({"foreground": "White"})
     listIndex += 1
-    slots[listIndex].config({"background": "White"})
-    slots[listIndex].config({"foreground": "Black"})
+    buttons[listIndex].config({"background": "White"})
+    buttons[listIndex].config({"foreground": "Black"})
 
 StudentList = []
 flags = []
@@ -96,8 +96,9 @@ root = Tk()
 root.geometry("900x100+300+850")
 root.minsize(900,100)
 root.maxsize(900,100)
+root.title("Cold Call")
 
-myLabel1 = Label(root, text= "Cold Call" , font=("Arial", 20))
+myLabel1 = Label(root, text= "Student Dock" , font=("Arial", 20))
 myLabel1.grid(row = 0, column = 1, padx = 5, pady = 5)
 
 ##myLabel2 = Label(root, text=studentList[1], font=("Arial", 20))
@@ -109,23 +110,23 @@ myLabel1.grid(row = 0, column = 1, padx = 5, pady = 5)
 ##myLabel4 = Label(root, text=studentList[3], font=("Arial", 20))
 ##myLabel4.grid(row=0, column=3)
 
-# from my understanding of the project we will only need 4 slots as those are the students who will be displayed in the cold call
-slot0 = Label(root, text = DockList[0], bg = "Blue", fg = "white", padx = 30, relief = RAISED, width = 10, font = ("Arial",12))
-slot0.grid(row = 1, column = 1, padx = 5, pady = 5)
+# from my understanding of the project we will only need 4 buttons as those are the students who will be displayed in the cold call
+button0 = Label(root, text = DockList[0], bg = "Blue", fg = "white", padx = 30, relief = RAISED, width = 10, font = ("Arial",12))
+button0.grid(row = 1, column = 1, padx = 5, pady = 5)
 
-slot1 = Label(root, text = DockList[1], bg = "Blue", fg = "white", padx = 30, relief = RAISED, width = 10, font = ("Arial",12))
-slot1.grid(row = 1, column = 2, padx = 5, pady = 5)
+button1 = Label(root, text = DockList[1], bg = "Blue", fg = "white", padx = 30, relief = RAISED, width = 10, font = ("Arial",12))
+button1.grid(row = 1, column = 2, padx = 5, pady = 5)
 
-slot2 = Label(root, text = DockList[2], bg = "Blue", fg = "white", padx = 30, relief = RAISED, width = 10, font = ("Arial",12))
-slot2.grid(row = 1, column = 3, padx = 5, pady = 5)
+button2 = Label(root, text = DockList[2], bg = "Blue", fg = "white", padx = 30, relief = RAISED, width = 10, font = ("Arial",12))
+button2.grid(row = 1, column = 3, padx = 5, pady = 5)
 
-slot3 = Label(root, text = DockList[3], bg = "Blue", fg = "white", padx = 30, relief = RAISED, width = 10, font = ("Arial",12))
-slot3.grid(row = 1, column = 4, padx = 5, pady = 5)
+button3 = Label(root, text = DockList[3], bg = "Blue", fg = "white", padx = 30, relief = RAISED, width = 10, font = ("Arial",12))
+button3.grid(row = 1, column = 4, padx = 5, pady = 5)
 
-slots = [slot0,slot1,slot2,slot3]
-
-slot0.config({"background": "White"})
-slot0.config({"foreground": "Black"})
+buttons = [button0,button1,button2,button3]
+#Right now the program has the first position highlighted but after reading SRS it should be dependent on whether the instructor presses left or right first, have to fix that
+button0.config({"background": "White"})
+button0.config({"foreground": "Black"})
 
 # myLabel1 = Label(root, text = "Hello World!")
 # myLabel2 = Label(root, text = "DA")
