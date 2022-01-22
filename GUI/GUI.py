@@ -7,8 +7,6 @@ Last Modified: 01/14/2022
 If on Linux Ubuntu use sudo apt-get install python3-tk for tkinter Module
 """
 from tkinter import *
-#pip install pynput in terminal; necessary for arrow input check
-from pynput.keyboard import *
 import os
 from backend.objects import *
 from backend.roster import *
@@ -108,6 +106,7 @@ root.geometry("900x100+300+850")
 root.minsize(900,100)
 root.maxsize(900,100)
 root.title("Cold Call")
+root.attributes("-topmost", True)
 
 myLabel1 = Label(root, text= "Student Dock" , font=("Arial", 20))
 myLabel1.grid(row = 0, column = 1, padx = 5, pady = 5)
