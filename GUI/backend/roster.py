@@ -26,29 +26,13 @@ def Roster():
 
     return StudentList
 
-
-
-    """Roster = Queue()
-    Student1 = ....
-    Student2 = ....
-    Student3 = .....
-    Student4 = ......
-    Student5 = .......
-    Roster.enqueue(student1)
-    Roster.enqueue(student2)
-    Roster.enqueue(student3)
-    Roster.enqueue(student4)
-    Roster.enqueue(student5)"""
-
-'''
-
 def deck(roster):
     deck = Queue()
     new_roster=random.shuffle(roster)
     if new_roster==roster:
-	new_roster=random.shuffle(new_roster)
+        new_roster=random.shuffle(new_roster)
     for i in range(4):
-	deck.enqueue(new_roster[i])
+        deck.enqueue(new_roster[i])
     return deck
 
 def save_roster():
@@ -59,19 +43,6 @@ def summary_file():
     #See how many times people paricipated,etc.
     pass
 
-
-
-"""def pickstudent(ondeck,roster):
-    if deck > 4:
-        "Error Handling"
-        return 0
-
-def pickstudent(ondeck, roster):
-    new_roster=random.shuffle(roster)
-    return new_roster[0]"""
-
-
-'''
 def main():
     StudentList = Roster()
     return
