@@ -61,7 +61,7 @@ class Queue:
         else:
             print("Queue length is ", self.length)
             for i in range(self.length):
-                print("Queue at place", i, "has", end = " ")
+                print("Queue at place", i, "has", end = "@")
                 self.queue[i].printstudent()
 
 
