@@ -97,6 +97,7 @@ with open(os.path.join(sys.path[0], "Samplefile.txt"), "r") as f:
             flags.append(int(studentclass[len(f)]))
 '''
 #This is grabbing from roster file!! kewl :))
+#Right now roster can only find from same directory that GUI.py is in, may need to fix that
 StudentList = Roster()
 DockList = []
 for i in range(len(StudentList)):
