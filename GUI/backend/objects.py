@@ -61,11 +61,11 @@ class Queue:
         else:
             print("Queue length is ", self.length)
             for i in range(self.length):
-                print("Queue at place", i, "has", end = " ")
+                print("Queue at place", i, "has", end = "@")
                 self.queue[i].printstudent()
 
 
-
+'''
 student1 = Student("Patrick", "Thomasma", 951623133, "pthomasm@uoregon.edu", "Pat-T-rick", [], 0)
 student2 = Student("Athony", "Hornoff", 23131142, "noff@uoregon.edu", "hor-noff", [], 0)
 student3 = Student("David", "Han", 95172932, "dhan@uoregon.edu", "Day-vid", [],0)
@@ -82,4 +82,4 @@ pop = test.dequeue()
 pop.printstudent()
 test.enqueue(pop)
 test.printQueue()
-
+'''

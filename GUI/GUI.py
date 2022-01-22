@@ -10,6 +10,8 @@ from tkinter import *
 #pip install pynput in terminal; necessary for arrow input check
 from pynput.keyboard import *
 import os
+from backend.objects import *
+from backend.roster import *
 
 # Test this list, then test sample file, then test through backened pull
 
@@ -36,25 +38,29 @@ def update_button():
 #Working up function but methods are kind of messy and obviously not finalized since its using a test version of FILE I/O
 def upKey(event):
     global listIndex
-    global buttons
     global StudentList
-    global flags
+    #global flags
     global DockList
     global remover
     current_student = DockList[listIndex]
     removed = DockList.pop(listIndex)
     remover += 1
     DockList.append(StudentList[remover])
-    flags[listIndex] += 1
+    #flags[listIndex] += 1
     update_button()
-
 
 #Not implemented yet
 def downKey(event):
     global listIndex
     global buttons
     global StudentList
-    print(StudentList)
+    global DockList
+    global remover
+    current_student = DockList[listIndex]
+    removed = DockList.pop(listIndex)
+    remover += 1
+    DockList.append(StudentList[remover])
+    update_button()
 
 
 def leftKey(event): #update list Index and color slots so its consistent with each key press
@@ -78,7 +84,7 @@ def rightKey(event): #update list index until it hits the end of the list, keep 
     listIndex += 1
     buttons[listIndex].config({"background": "White"})
     buttons[listIndex].config({"foreground": "Black"})
-
+'''
 StudentList = []
 flags = []
 #opening our file then using for loop to grab information that we want current
@@ -89,9 +95,13 @@ with open(os.path.join(sys.path[0], "Samplefile.txt"), "r") as f:
             studentclass = f[i].split()
             StudentList.append(studentclass[0] + ' ' + studentclass[1])
             flags.append(int(studentclass[len(f)]))
-
-
-DockList = StudentList[0:4]
+'''
+#This is grabbing from roster file!! kewl :))
+#Right now roster can only find from same directory that GUI.py is in, may need to fix that
+StudentList = Roster()
+DockList = []
+for i in range(len(StudentList)):
+    DockList.append(StudentList[i].first + ' ' + StudentList[i].last)
 remover = 3
 root = Tk()
 root.geometry("900x100+300+850")
@@ -146,7 +156,7 @@ button0.config({"foreground": "Black"})
 root.bind("<Left>",leftKey)
 root.bind("<Right>",rightKey)
 root.bind("<Up>",upKey)
-root.bind("Down>",downKey)
+root.bind("<Down>",downKey)
 
 root.mainloop()
 
