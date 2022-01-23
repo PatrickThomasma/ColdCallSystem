@@ -10,26 +10,28 @@ Last modified: 01/14/2022
 from backend.objects import Student, Queue , Roster
 import os
 import sys
+import random
 
 def Roster():
     deck = Queue()
     StudentList = []
+    AddStudent=[]
     #function here will open file 
     with open(os.path.join(sys.path[0], "Samplefile.txt") , "r") as f:
         f = f.readlines()
-        for i in range (0 , len(f)):
-            #StudentList.append(f)
-            studentclass = f[i].split()
-            #append Student class object to StudentList
-            StudentList.append(Student(studentclass[0],studentclass[1],studentclass[2],studentclass[3],studentclass[4],studentclass[5],studentclass[6]))
-            deck.enqueue(studentclass[0] + ' ' + studentclass[1])
-
+        for line in f:
+            #Appending each student and their info to a list
+            split_line=line.strip().split()
+            AddStudent.append(split_line)
+        #shuffling the list of student info
+        random.shuffle(AddStudent)
+        for i in range(0, len(AddStudent)):
+            StudentList.append(Student(AddStudent[i][0],AddStudent[i][1],AddStudent[i][2],AddStudent[i][3],AddStudent[i][4],AddStudent[i][5],AddStudent[i][6]))
+            deck.enqueue(AddStudent[i][0]+' '+AddStudent[i][1])
     return StudentList
 
 def deck(roster):
-    deck = Queue()
-    new_roster=random.shuffle(roster)
-    if new_roster==roster:
+    if new_roster==roster:    
         new_roster=random.shuffle(new_roster)
     for i in range(4):
         deck.enqueue(new_roster[i])
@@ -44,7 +46,7 @@ def summary_file():
     pass
 
 def main():
-    StudentList = Roster()
+    StudentList = Roster() 
     return
 
 if __name__ == "__main__":
