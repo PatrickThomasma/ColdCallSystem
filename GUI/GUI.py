@@ -9,6 +9,7 @@ If using mac terminal, pip3 --version, pip3 install --upgrade pip, pip3 install 
 """
 from tkinter import *
 import os
+import sys # for exit w esc
 from backend.objects import *
 from backend.roster import *
 
@@ -86,6 +87,9 @@ def rightKey(event): #update list index until it hits the end of the list, keep 
     listIndex += 1
     buttons[listIndex].config({"background": "White"})
     buttons[listIndex].config({"foreground": "Black"})
+
+def exitWindow(event):
+    sys.exit()
 
 def flag(event): 
     global listIndex
@@ -167,6 +171,7 @@ button0.config({"foreground": "Black"})
 
 # if key == Key.backspace:
 #     exit()
+root.bind('<Escape>', exitWindow)
 
 #These functions will bind the functions to keyboard and is main control for user
 root.bind("<Left>",leftKey)
