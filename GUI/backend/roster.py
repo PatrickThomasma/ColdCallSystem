@@ -31,8 +31,6 @@ def Roster():
     return StudentList
 
 def deck(roster):
-    if new_roster==roster:    
-        new_roster=random.shuffle(new_roster)
     for i in range(4):
         deck.enqueue(new_roster[i])
     return deck

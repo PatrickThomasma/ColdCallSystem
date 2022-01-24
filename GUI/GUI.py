@@ -5,6 +5,7 @@ Author: Patrick Thomasma, David Han
 Last Modified: 01/14/2022
 
 If on Linux Ubuntu use sudo apt-get install python3-tk for tkinter Module
+If using mac terminal, pip3 --version, pip3 install --upgrade pip, pip3 install tk
 """
 from tkinter import *
 import os
@@ -50,7 +51,6 @@ def upKey(event):
 #Not implemented yet
 def downKey(event):
     global listIndex
-    global buttons
     global StudentList
     global DockList
     global remover
@@ -82,6 +82,17 @@ def rightKey(event): #update list index until it hits the end of the list, keep 
     listIndex += 1
     buttons[listIndex].config({"background": "White"})
     buttons[listIndex].config({"foreground": "Black"})
+
+def flag(event): 
+    global listIndex
+    global StudentList
+    global DockList
+    global remover
+    current_student = DockList[listIndex]
+    removed = DockList.pop(listIndex)
+    remover += 1
+    DockList.append(StudentList[remover])
+    update_button()
 '''
 StudentList = []
 flags = []
@@ -156,7 +167,10 @@ root.bind("<Left>",leftKey)
 root.bind("<Right>",rightKey)
 root.bind("<Up>",upKey)
 root.bind("<Down>",downKey)
-
+root.bind("<Q>",flag)
+root.bind("<W>",flag)
+root.bind("<E>",flag)
+root.bind("<R>",flag)
 root.mainloop()
 
 
