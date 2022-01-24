@@ -30,7 +30,7 @@ def update_button():
     global StudentList
     global DockList
     for i in range(4):
-        buttons[i].config({"text": DockList[i]})
+        buttons[i].config({"text": DockList[i].first + ' ' + DockList[i].last})
 
 
 #Working up function but methods are kind of messy and obviously not finalized since its using a test version of FILE I/O
@@ -41,9 +41,12 @@ def upKey(event):
     global DockList
     global remover
     current_student = DockList[listIndex]
+    current_student.flags += 1 #Updates student class flag
+    print(current_student.flags)
     removed = DockList.pop(listIndex)
+    StudentList.append(current_student) #Adds student back into the Studentlist with updated flag
     remover += 1
-    DockList.append(StudentList[remover])
+    DockList.append(StudentList[remover]) #gets next student in StudentList and into DockList (Very sloppy method gotta fix)
     #flags[listIndex] += 1
     update_button()
 
@@ -56,6 +59,7 @@ def downKey(event):
     global remover
     current_student = DockList[listIndex]
     removed = DockList.pop(listIndex)
+    StudentList.append(current_student)
     remover += 1
     DockList.append(StudentList[remover])
     update_button()
@@ -97,9 +101,11 @@ with open(os.path.join(sys.path[0], "Samplefile.txt"), "r") as f:
 #This is grabbing from roster file!! kewl :))
 #Right now roster can only find from same directory that GUI.py is in, may need to fix that
 StudentList = Roster()
+start_file("log.txt")
 DockList = []
-for i in range(len(StudentList)):
-    DockList.append(StudentList[i].first + ' ' + StudentList[i].last)
+for i in range(0 , 4): #This only has first 4 students of studentlist
+    DockList.append(StudentList[i])
+    StudentList.pop(i)
 remover = 3
 root = Tk()
 root.geometry("900x100+300+850")
@@ -123,16 +129,16 @@ myLabel1.grid(row = 0, column = 1, padx = 5, pady = 5)
 # from my understanding of the project we will only need 4 buttons as those are the students who will be displayed in the cold call
 
 #Should change the background color here maybe? He specifies how the coloring should look a little bit on SRS
-button0 = Label(root, text = DockList[0], bg = "Blue", fg = "white", padx = 30, relief = RAISED, width = 10, font = ("Arial",12))
+button0 = Label(root, text = DockList[0].first + ' ' + DockList[1].last, bg = "Blue", fg = "white", padx = 30, relief = RAISED, width = 10, font = ("Arial",12))
 button0.grid(row = 1, column = 1, padx = 5, pady = 5)
 
-button1 = Label(root, text = DockList[1], bg = "Blue", fg = "white", padx = 30, relief = RAISED, width = 10, font = ("Arial",12))
+button1 = Label(root, text = DockList[1].first + ' ' + DockList[1].last, bg = "Blue", fg = "white", padx = 30, relief = RAISED, width = 10, font = ("Arial",12))
 button1.grid(row = 1, column = 2, padx = 5, pady = 5)
 
-button2 = Label(root, text = DockList[2], bg = "Blue", fg = "white", padx = 30, relief = RAISED, width = 10, font = ("Arial",12))
+button2 = Label(root, text = DockList[2].first + ' ' + DockList[2].last, bg = "Blue", fg = "white", padx = 30, relief = RAISED, width = 10, font = ("Arial",12))
 button2.grid(row = 1, column = 3, padx = 5, pady = 5)
 
-button3 = Label(root, text = DockList[3], bg = "Blue", fg = "white", padx = 30, relief = RAISED, width = 10, font = ("Arial",12))
+button3 = Label(root, text = DockList[3].first + ' ' + DockList[3].last, bg = "Blue", fg = "white", padx = 30, relief = RAISED, width = 10, font = ("Arial",12))
 button3.grid(row = 1, column = 4, padx = 5, pady = 5)
 
 buttons = [button0,button1,button2,button3]

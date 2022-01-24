@@ -5,7 +5,7 @@ Last modified: 01/19/2022
 """
 
 class Student:
-    def __init__(self,first,last,ID,email,phoneticSpelling,revealCode,LF):
+    def __init__(self,first,last,ID,email,phoneticSpelling,revealCode,LF,flags):
         self.first = first
         self.last = last
         self.ID = ID
@@ -13,6 +13,7 @@ class Student:
         self.phonetic = phoneticSpelling
         self.reveal = revealCode
         self.LF = LF
+        self.flags = flags
 
     def student_display(self):
         return (self.first, self.last)
@@ -20,18 +21,16 @@ class Student:
     def printstudent(self):
         print("Student:\t",self.first, self.last, "ID:\t", self.ID,"Email adress:\t",self.email,"Phonetic_spelling:\t",self.phonetic,"Reveal code:",self.reveal,"LF:",self.LF)
 
-class Flag():
-    def __init__(self):
-        self.flagqueue = []
 
-    def is_flagged(self,flag,student):
-	#This will add the student to a queue if they are flagged
-        if flag==1:
-            self.flagqueue.append(student)
-
-class Roster():
-    pass
-
+#class Flag():
+ #   def __init__(self):
+  #      self.flagqueue = []
+#
+#    def is_flagged(self,flag,student):
+#	#This will add the student to a queue if they are flagged
+ #       if flag==1:
+  #          self.flagqueue.append(student)
+#
 class Queue:
     def __init__(self):
         self.queue = []
