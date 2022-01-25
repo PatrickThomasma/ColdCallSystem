@@ -32,9 +32,12 @@ def Roster():
     return StudentList
 
 def deck(roster):
-    for i in range(4):
-        deck.enqueue(new_roster[i])
-    return deck
+    deckList=[]
+    random.shuffle(StudentList)
+    for i in range(0,4):
+        deckList.append(StudentList[i])
+        StudentList.append(StudentList.pop[i])
+    return deckList 
 
 def save_roster(filepath, Student, flagged):
     with open(filepath, "a") as roster:
