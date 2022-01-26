@@ -208,3 +208,65 @@ Cold Call app opened on 2022-01-25
 Cold Call app opened on 2022-01-25
 ----------------
 Cold Call app opened on 2022-01-25
+----------------
+Cold Call app opened on 2022-01-25
+----------------
+Cold Call app opened on 2022-01-25
+----------------
+Cold Call app opened on 2022-01-25
+----------------
+Cold Call app opened on 2022-01-25
+----------------
+Cold Call app opened on 2022-01-25
+----------------
+Cold Call app opened on 2022-01-25
+----------------
+Cold Call app opened on 2022-01-25
+----------------
+Cold Call app opened on 2022-01-25
+Haylee Bart (hbart@uoregon.edu) was called 1 times.
+Maya Divine (mdivine@uoregon.edu) was called 1 times.Student was also flagged a total of 1 times
+Zoey Turner (zoeyt@uoregon.edu) was called 1 times.Student was also flagged a total of 1 times
+Sean Jones (sjones@uoregon.edu) was called 1 times.Student was also flagged a total of 1 times
+Cameron Armas (carmas@uoregon.edu) was called 1 times.
+Rianna Vee (riannav@uoregon.edu) was called 1 times.Student was also flagged a total of 1 times
+David Han (dhan@uoregon.edu) was called 1 times.
+Nick Colver (nickc@uoregon.edu) was called 1 times.
+Geli Zhang (ghang2@uoregon.edu) was called 1 times.Student was also flagged a total of 1 times
+Patrick Thomasma (pthomasm@uoregon.edu) was called 1 times.Student was also flagged a total of 1 times
+Kassandra Morando (kmorando@uoregon.edu) was called 1 times.Student was also flagged a total of 1 times
+Kelly Smith (smithk@uoregon.edu) was called 1 times.
+Cameron Barnett (cbarnett@uoregon.edu) was called 1 times.
+Cool Guy (coolz@uoregon.edu) was called 1 times.
+----------------
+Cold Call app opened on 2022-01-25
+    Geli (Zhang)
+ X  Haylee (Bart)
+    Kassandra (Morando)
+ X  Brianna (Vago)
+    Cool (Guy)
+    Rianna (Vee)
+    Tessa (Lee)
+    Nick (Colver)
+ X  Cameron (Armas)
+    David (Han)
+ X  Eric (Williams)
+    Maya (Divine)
+ X  Kelly (Smith)
+ X  Sean (Jones)
+----------------
+Cold Call app opened on 2022-01-25
+    Haylee Bart  (hbart@uoregon.edu)
+ X  Cameron Armas  (carmas@uoregon.edu)
+ X  Cool Guy  (coolz@uoregon.edu)
+    Geli Zhang  (ghang2@uoregon.edu)
+ X  Nick Colver  (nickc@uoregon.edu)
+    Patrick Thomasma  (pthomasm@uoregon.edu)
+    Kassandra Morando  (kmorando@uoregon.edu)
+    Kelly Smith  (smithk@uoregon.edu)
+    Brianna Vago  (bvago@uoregon.edu)
+ X  Eric Williams  (ewilliams@uoregon.edu)
+ X  Zoey Turner  (zoeyt@uoregon.edu)
+ X  Tessa Lee  (tlee@uoregon.edu)
+    Sean Jones  (sjones@uoregon.edu)
+ X  David Han  (dhan@uoregon.edu)

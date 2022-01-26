@@ -2,7 +2,7 @@
 This will be the main GUI for students
 
 Author: Patrick Thomasma, David Han
-Last Modified: 01/14/2022
+Last Modified: 01/25/2022
 
 If on Linux Ubuntu use sudo apt-get install python3-tk for tkinter Module
 If using mac terminal, pip3 --version, pip3 install --upgrade pip, pip3 install tk
@@ -17,6 +17,7 @@ from backend.roster import *
 
 # exRandomList = ["AA", "AB", "AC", "AD"]
 #listIndex will keep track of which student the user currently has selected
+
 listIndex = 0
 
 #Runs the window

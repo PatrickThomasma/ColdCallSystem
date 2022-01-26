@@ -4,7 +4,7 @@ Our algorithm for picking a cold deck queue
 This file will import from a student class that will initialize student and Queue Objects
 
 Author: Patrick Thomasma
-Last modified: 01/14/2022
+Last modified: 01/25/2022
 """
 #if you run this file first it will say no module named backend, just remove it for testing purposes since backend.objects is needed for the GUI.py file import
 from backend.objects import Student, Queue
@@ -12,6 +12,8 @@ import os
 import sys
 import random
 from datetime import date
+
+times_limit = 1
 
 def Roster():
     StudentList = []
@@ -28,25 +30,34 @@ def Roster():
         random.shuffle(AddStudent)
         #This will add all the information into StudentList
         for i in range(0, len(AddStudent)):
-            StudentList.append(Student(AddStudent[i][0],AddStudent[i][1],AddStudent[i][2],AddStudent[i][3],AddStudent[i][4],AddStudent[i][5],AddStudent[i][6],0))
+            StudentList.append(Student(AddStudent[i][0],AddStudent[i][1],AddStudent[i][2],AddStudent[i][3],AddStudent[i][4],AddStudent[i][5],AddStudent[i][6],0 , 0))
     return StudentList
 
 def deck(StudentList, deckList, listIndex, ind):
     random.shuffle(StudentList)
+    global times_limit
     if (len(deckList) == 4): #When deck is full we just have to pop whatever index has been sent in then do the same as the for loop below
         current_student = deckList.pop(listIndex) #since deck is full we're going to pop whoever was called
         if (ind == 1):
             current_student.flags += 1 #Update the students flag then put them back into StudentList
+        current_student.times_called += 1
         StudentList.append(current_student)
         for i in range (0, len(StudentList)):
 #Loop through StudentList to find someone that doesn't have a flag and add them back into Deck
-            if (StudentList[i].flags < 1):
+            if (StudentList[i].times_called < times_limit):
                 deckList.append(StudentList[i])
                 StudentList.pop(i)
                 return deckList, StudentList
 #So right now once everyone has been called the program should shut down
 #At this point instead of exiting its time to handle next iteration of program assuming its still being is use
-        sys.exit("List is complete")
+       
+        for j in range (len(StudentList)):
+            print(StudentList[j].first + ' ' + StudentList[j].last + ': ' + str(StudentList[j].times_called))
+        for k in deckList:
+            print(k.first + ' ' + k.last + ' ' + str(k.times_called))
+
+        save_roster("log.txt", StudentList)
+
     for i in range(0,4): #This will add people to our deck and add them to the back of the studentList
         deckList.append(StudentList[i])
         StudentList.pop(i)
@@ -54,13 +65,16 @@ def deck(StudentList, deckList, listIndex, ind):
     #deckList = [Patrick Thomasma, Kassandra morando, David han, briana vago]
     return deckList , StudentList
 
-def save_roster(filepath, Student, flagged):
+def save_roster(filepath, StudentList):
     with open(filepath, "a") as roster:
-        output = "{} {} ({}) was called {} times.".format(Student.first, Student.last,Student.email, Student.times_called)
-        if flagged:
-            output += "Student was also flagged a total of {} times".format(student.flag)
-        output += "\n"
-        log.write(output)
+        for Student in StudentList:
+            if Student.flags > 0:
+                output = "{} {} {}  ({})".format("   " , Student.first, Student.last,Student.email)
+            else:
+                output = "{} {} {}  ({})".format(" X " , Student.first, Student.last, Student.email)
+            output += "\n"
+            roster.write(output)
+        sys.exit("List is done")
         #We will save roster informaiton here with times called and how many times are student was flagged
 
 

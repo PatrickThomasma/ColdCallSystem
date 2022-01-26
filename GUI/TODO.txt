@@ -1,0 +1,12 @@
+-Writing data into memory
+-Partially randomized when loaded from data
+-Need random distribution verfication Mode
+-Do we do photo files?
+-Figure out what to do with total times called (Summary file stuff)
+-Error messages and cases
+-Need to consider Excel to Tab-delimited file (Use case C)
+-Need Summary Performance file (Use case D)
+-Need a buffer from up key to flag keys to annotate into daily log file
+-Need to do 4.4
+- 
+-

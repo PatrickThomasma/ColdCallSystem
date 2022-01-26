@@ -1,11 +1,11 @@
 """
 This file will initialize the student and Queue from an input file that has a list of Students and their ID numbers
 Author: Patrick Thomasma, Kassandra Morando
-Last modified: 01/19/2022
+Last modified: 01/25/2022
 """
 
 class Student:
-    def __init__(self,first,last,ID,email,phoneticSpelling,revealCode,LF,flags):
+    def __init__(self,first,last,ID,email,phoneticSpelling,revealCode,LF,flags, times_called):
         self.first = first
         self.last = last
         self.ID = ID
@@ -14,6 +14,7 @@ class Student:
         self.reveal = revealCode
         self.LF = LF
         self.flags = flags
+        self.times_called = times_called
 
     def student_display(self):
         return (self.first, self.last)
