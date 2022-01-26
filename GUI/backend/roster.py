@@ -28,16 +28,37 @@ def Roster():
         random.shuffle(AddStudent)
         for i in range(0, len(AddStudent)):
             StudentList.append(Student(AddStudent[i][0],AddStudent[i][1],AddStudent[i][2],AddStudent[i][3],AddStudent[i][4],AddStudent[i][5],AddStudent[i][6],0))
-            deck.enqueue(AddStudent[i][0]+' '+AddStudent[i][1])
+            #deck.enqueue(AddStudent[i][0]+' '+AddStudent[i][1])
     return StudentList
 
-def deck(roster):
-    deckList=[]
+def deck(StudentList, deckList, listIndex):
     random.shuffle(StudentList)
-    for i in range(0,4):
+    counter = 0
+    for i in range (0, len(StudentList)):
+        counter += 1
+        print(StudentList[i].first + ' ' + StudentList[i].last + ' Counter: ' + str(counter))
+    if (len(deckList) == 4): #When deck is full we just have to pop whatever index has been sent in then do the same as the for loop below
+        current_student = deckList.pop(listIndex) #since deck is full we're going to pop whoever was called
+        print("Index of the deck" , listIndex)
+        print("Student who is popped then back in: ", current_student.first , " " , current_student.flags)
+        StudentList.append(current_student) #Then add them back into studentList
+        for i in range (0, len(StudentList)):
+#Loop through StudentList to find someone that doesn't have a flag and add them back into Deck
+            if (StudentList[i].flags < 1):
+                print(len(StudentList))
+                print(StudentList[i].first + ' ' + str(StudentList[i].flags))
+                deckList.append(StudentList[i])
+                StudentList.append(StudentList.pop(i))
+                return deckList, StudentList
+#So right now once everyone has been called the program should shut down
+#At this point instead of exiting its time to handle next iteration of program assuming its still being is use
+        sys.exit("List is complete")
+    for i in range(0,4): #This will add people to our deck and add them to the back of the studentList
         deckList.append(StudentList[i])
-        StudentList.append(StudentList.pop[i])
-    return deckList 
+        StudentList.pop(i)
+    #This will return decklist into GUI for example 
+    #deckList = [Patrick Thomasma, Kassandra morando, David han, briana vago]
+    return deckList , StudentList
 
 def save_roster(filepath, Student, flagged):
     with open(filepath, "a") as roster:
@@ -55,9 +76,9 @@ def start_file(filepath):
         log.write(output)
     #This will log the dates then information from save roster will come after
 
-def main():
-    StudentList = Roster() 
-    return
+#def main():
+#    StudentList = Roster() 
+#    return
 
-if __name__ == "__main__":
-    main()
+#if __name__ == "__main__":
+#    main()
