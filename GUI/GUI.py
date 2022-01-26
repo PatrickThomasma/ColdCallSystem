@@ -38,11 +38,11 @@ def upKey(event):
     global StudentList
     global listIndex
     global DockList
-    current_student = DockList[listIndex]
-    current_student.flags += 1 #Updates student class flag
+    #current_student = DockList[listIndex]
+    #current_student.flags += 1 #Updates student class flag
     DockList , StudentList = deck(StudentList, DockList, listIndex)
     for i in range(4):
-        print("DockList Flags: ", DockList[i].flags)
+        print("DockList: ", DockList[i].first + ' ' + DockList[i].last)
     #print(DockList[0].first + ' ' + DockList[1].first + ' ' + DockList[2].first + ' ' + DockList[3].first)
     #flags[listIndex] += 1
     update_button()

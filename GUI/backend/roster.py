@@ -39,19 +39,23 @@ def deck(StudentList, deckList, listIndex):
         print(StudentList[i].first + ' ' + StudentList[i].last + ' Counter: ' + str(counter))
     if (len(deckList) == 4): #When deck is full we just have to pop whatever index has been sent in then do the same as the for loop below
         current_student = deckList.pop(listIndex) #since deck is full we're going to pop whoever was called
-        print("Index of the deck" , listIndex)
+        current_student.flags += 1
+        StudentList.append(current_student)
+        print("Length", len(StudentList))
         print("Student who is popped then back in: ", current_student.first , " " , current_student.flags)
-        StudentList.append(current_student) #Then add them back into studentList
+        #StudentList.append(current_student) #Then add them back into studentList
         for i in range (0, len(StudentList)):
 #Loop through StudentList to find someone that doesn't have a flag and add them back into Deck
             if (StudentList[i].flags < 1):
-                print(len(StudentList))
-                print(StudentList[i].first + ' ' + str(StudentList[i].flags))
+                #print(StudentList[i].first + ' ' + StudentList[i].last + ' ' + str(StudentList[i].flags))
                 deckList.append(StudentList[i])
-                StudentList.append(StudentList.pop(i))
+                StudentList.pop(i)
+                #print(StudentList[i].first + ' ' + StudentList[i].last + ' ' + str(StudentList[i].flags))
                 return deckList, StudentList
 #So right now once everyone has been called the program should shut down
 #At this point instead of exiting its time to handle next iteration of program assuming its still being is use
+        for j in range (0, len(StudentList)):
+            print(StudentList[j].flags)
         sys.exit("List is complete")
     for i in range(0,4): #This will add people to our deck and add them to the back of the studentList
         deckList.append(StudentList[i])
