@@ -29,6 +29,7 @@ listIndex = 0
 def update_button():
     global buttons
     global DockList
+    #Update whos in the queue for the users view on the next run
     for i in range(4):
         buttons[i].config({"text": DockList[i].first + ' ' + DockList[i].last})
 
@@ -38,13 +39,8 @@ def upKey(event):
     global StudentList
     global listIndex
     global DockList
-    #current_student = DockList[listIndex]
-    #current_student.flags += 1 #Updates student class flag
-    DockList , StudentList = deck(StudentList, DockList, listIndex)
-    for i in range(4):
-        print("DockList: ", DockList[i].first + ' ' + DockList[i].last)
-    #print(DockList[0].first + ' ' + DockList[1].first + ' ' + DockList[2].first + ' ' + DockList[3].first)
-    #flags[listIndex] += 1
+    #With deck now full this function will instead remove the student, update flag, then return an update DockList and StudentList
+    DockList , StudentList = deck(StudentList, DockList, listIndex , 1)
     update_button()
 
 #Not implemented yet
@@ -52,10 +48,8 @@ def downKey(event):
     global listIndex
     global StudentList
     global DockList
-    current_student = DockList[listIndex]
-    removed = DockList.pop(listIndex)
-    StudentList.append(current_student)
-    DockList.append(StudentList[remover])
+    #Same as the upkey except the flags are not updated
+    DockList, StudentList = deck(StudentList, DockList, listIndex, 0)
     update_button()
 
 
@@ -88,11 +82,8 @@ def flag(event):
     global listIndex
     global StudentList
     global DockList
-    global remover
-    current_student = DockList[listIndex]
-    removed = DockList.pop(listIndex)
-    remover += 1
-    DockList.append(StudentList[remover])
+    #Same as Up function but just different Keys
+    DockList, StudentList = deck(StudentList,DockList, listIndex, 1)
     update_button()
 '''
 StudentList = []
@@ -109,18 +100,19 @@ with open(os.path.join(sys.path[0], "Samplefile.txt"), "r") as f:
 #This is grabbing from roster file!! kewl :))
 #Right now roster can only find from same directory that GUI.py is in, may need to fix that
 StudentList = Roster()
+#StudentList is now a list that contains a bunch of objects with all the information about a particular student
 start_file("log.txt")
+#This will save the date the program is run into
 DockList = []
-print(StudentList[0].flags)
 #Calling deck function in roster.py to get people into cold call system and to remove from front of StudentList and append back into that list
-DockList , StudentList = deck(StudentList, DockList, 0)
+DockList , StudentList = deck(StudentList, DockList, 0 , 0)
 root = Tk()
 root.geometry("900x100+300+850")
 root.minsize(900,100)
 root.maxsize(900,100)
 root.title("Cold Call")
 root.attributes("-topmost", True)
-
+#All of the root functions here setup the window
 myLabel1 = Label(root, text= "Student Dock" , font=("Arial", 20))
 myLabel1.grid(row = 0, column = 1, padx = 5, pady = 5)
 
@@ -147,7 +139,7 @@ button2.grid(row = 1, column = 3, padx = 5, pady = 5)
 
 button3 = Label(root, text = DockList[3].first + ' ' + DockList[3].last, bg = "Blue", fg = "white", padx = 30, relief = RAISED, width = 10, font = ("Arial",12))
 button3.grid(row = 1, column = 4, padx = 5, pady = 5)
-
+#All of these will be buttons for the deck
 buttons = [button0,button1,button2,button3]
 #Right now the program has the first position highlighted but after reading SRS it should be dependent on whether the instructor presses left or right first, have to fix that
 button0.config({"background": "White"})
