@@ -1,14 +1,15 @@
 """
 This will be the main GUI for students
 
-Author: Patrick Thomasma, David Han
-Last Modified: 01/25/2022
+Author: Patrick Thomasma, David Han, Geli Zhang
+Last Modified: 01/27/2022
 
 If on Linux Ubuntu use sudo apt-get install python3-tk for tkinter Module
 If using mac terminal, pip3 --version, pip3 install --upgrade pip, pip3 install tk
 """
 from tkinter import *
 import os
+import time
 import sys # for exit w esc
 from backend.objects import *
 from backend.roster import *
@@ -42,6 +43,8 @@ def upKey(event):
     global DockList
     #With deck now full this function will instead remove the student, update flag, then return an update DockList and StudentList
     DockList , StudentList = deck(StudentList, DockList, listIndex , 1)
+    #the next person's name will appear after a delay of 2s
+    time.sleep(2)
     update_button()
 
 #Not implemented yet
