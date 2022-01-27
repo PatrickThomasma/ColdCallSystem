@@ -43,8 +43,8 @@ def upKey(event):
     global DockList
     #With deck now full this function will instead remove the student, update flag, then return an update DockList and StudentList
     DockList , StudentList = deck(StudentList, DockList, listIndex , 1)
-    #the next person's name will appear after a delay of 2s
-    time.sleep(2)
+    #the next person's name will appear after a delay of 1s
+    time.sleep(1)
     update_button()
 
 #Not implemented yet
@@ -54,6 +54,8 @@ def downKey(event):
     global DockList
     #Same as the upkey except the flags are not updated
     DockList, StudentList = deck(StudentList, DockList, listIndex, 0)
+    #the next person's name will appear after a delay of 1s
+    time.sleep(1)
     update_button()
 
 
