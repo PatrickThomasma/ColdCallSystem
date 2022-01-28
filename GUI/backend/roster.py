@@ -12,11 +12,13 @@ import os
 import sys
 import random
 from datetime import date
+import numpy as np
+from datascience import *
 
 times_limit = 1
 
 def Roster():
-    StudentList = []
+    """StudentList = []
     AddStudent=[]
     #function here will open file 
     #Have to change filename to a path maybe?
@@ -31,6 +33,37 @@ def Roster():
         #This will add all the information into StudentList
         for i in range(0, len(AddStudent)):
             StudentList.append(Student(AddStudent[i][0],AddStudent[i][1],AddStudent[i][2],AddStudent[i][3],AddStudent[i][4],AddStudent[i][5],AddStudent[i][6],0 , 0))
+    return StudentList"""
+
+    studentTable=Table.read_table("Samplefile.csv")
+    first= studentTable.column("First Name")
+    last= studentTable.column("Last Name")
+    uoID= studentTable.column("UO ID")
+    email= studentTable.column("Email")
+    phone= studentTable.column("Phoetic Spelling")
+    revealCode= studentTable.column("Reveal Code")
+    lf= studentTable.column("LF")
+
+    firstName=[]
+    lastName=[]
+    uo_id=[]
+    emailList=[]
+    phonetic=[]
+    rc=[]
+    lfList=[]
+
+    for i in range(0,len(first)):
+        firstName.append(first[i])
+        lastName.append(last[i])
+        uo_id.append(uoID[i])
+        emailList.append(email[i])
+        phonetic.append(phone[i])
+        rc.append(revealCode[i])
+        lfList.append(lf[i])
+
+    StudentList=[]
+    for i in range(0,len(first)):
+        StudentList.append(Student(firstName[i],lastName[i],uo_id[i],emailList[i],phonetic[i],rc[i],lfList[i],0 , 0))
     return StudentList
 
 def deck(StudentList, deckList, listIndex, ind):
