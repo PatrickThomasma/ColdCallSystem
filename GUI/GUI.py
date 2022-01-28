@@ -7,7 +7,9 @@ Last Modified: 01/27/2022
 If on Linux Ubuntu use sudo apt-get install python3-tk for tkinter Module
 If using mac terminal, pip3 --version, pip3 install --upgrade pip, pip3 install tk
 """
+# from asyncore import file_dispatcher
 from tkinter import *
+from tkinter import filedialog
 import os
 import time
 import sys # for exit w esc
@@ -35,6 +37,10 @@ def update_button():
     for i in range(4):
         buttons[i].config({"text": DockList[i].first + ' ' + DockList[i].last})
 
+def importAction(event=None):
+    '''Obtain a user-selected file for import'''
+    rosterFile = filedialog.askopenfilename()
+    print("Selected: ", rosterFile)
 
 #Working up function but methods are kind of messy and obviously not finalized since its using a test version of FILE I/O
 def upKey(event):
@@ -44,7 +50,7 @@ def upKey(event):
     #With deck now full this function will instead remove the student, update flag, then return an update DockList and StudentList
     DockList , StudentList = deck(StudentList, DockList, listIndex , 1)
     #the next person's name will appear after a delay of 1s
-    time.sleep(1)
+    # time.sleep(1)
     update_button()
 
 #Not implemented yet
@@ -55,7 +61,7 @@ def downKey(event):
     #Same as the upkey except the flags are not updated
     DockList, StudentList = deck(StudentList, DockList, listIndex, 0)
     #the next person's name will appear after a delay of 1s
-    time.sleep(1)
+    # time.sleep(1)
     update_button()
 
 
@@ -103,6 +109,9 @@ with open(os.path.join(sys.path[0], "Samplefile.txt"), "r") as f:
             StudentList.append(studentclass[0] + ' ' + studentclass[1])
             flags.append(int(studentclass[len(f)]))
 '''
+
+# Should we organize part of the code into a main()?
+
 #This is grabbing from roster file!! kewl :))
 #Right now roster can only find from same directory that GUI.py is in, may need to fix that
 StudentList = Roster()
@@ -116,6 +125,30 @@ root = Tk()
 root.geometry("900x100+300+850")
 root.minsize(900,100)
 root.maxsize(900,100)
+
+
+'''Menu Setup'''
+menubar = Menu(root)
+root.config(menu=menubar)
+
+file_menu = Menu(menubar, tearoff=False)
+file_menu.add_command(
+    label='Import Roster',
+    command=lambda:importAction(),
+)
+
+file_menu.add_separator()
+file_menu.add_command(
+    label='Exit',
+    command=root.destroy,
+)
+menubar.add_cascade(
+    label="File",
+    menu=file_menu,
+    underline=0
+)
+
+
 root.title("Cold Call")
 root.attributes("-topmost", True)
 #All of the root functions here setup the window
@@ -159,10 +192,6 @@ button0.config({"foreground": "Black"})
 
 # myLabel.pack()
 
-# if key == Key.backspace:
-#     exit()
-root.bind('<Escape>', exitWindow)
-
 #These functions will bind the functions to keyboard and is main control for user
 root.bind("<Left>",leftKey)
 root.bind("<Right>",rightKey)
@@ -172,6 +201,8 @@ root.bind("<Q>",flag)
 root.bind("<W>",flag)
 root.bind("<E>",flag)
 root.bind("<R>",flag)
+
+root.bind('<Escape>', exitWindow)
 root.mainloop()
 
 
