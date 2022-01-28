@@ -10,6 +10,7 @@ If using mac terminal, pip3 --version, pip3 install --upgrade pip, pip3 install 
 # from asyncore import file_dispatcher
 from tkinter import *
 from tkinter import filedialog
+from tkinter import messagebox
 import os
 import time
 import sys # for exit w esc
@@ -88,7 +89,16 @@ def rightKey(event): #update list index until it hits the end of the list, keep 
     buttons[listIndex].config({"foreground": "Black"})
 
 def exitWindow(event):
-    sys.exit()
+    global StudentList
+    if messagebox.askokcancel("Quit", "Do you want to quit?"):
+        save_roster("SummaryPerformance.txt", StudentList)
+        root.destroy()
+    #sys.exit()
+
+def on_closing():
+    if messagebox.askokcancel("Quit", "Do you want to quit?"):
+        save_roster("SummaryPerformance.txt", StudentList)
+        root.destroy()
 
 def flag(event): 
     global listIndex
@@ -201,6 +211,7 @@ root.bind("<Q>",flag)
 root.bind("<W>",flag)
 root.bind("<E>",flag)
 root.bind("<R>",flag)
+root.protocol("WM_DELETE_WINDOW", on_closing)
 
 root.bind('<Escape>', exitWindow)
 root.mainloop()
@@ -212,4 +223,5 @@ https://www.youtube.com/watch?v=yQSEXcf6s2I&list=PLCC34OHNcOtoC6GglhF3ncJ5rLwQrL
 https://docs.python.org/3/library/tkinter.html
 https://www.geeksforgeeks.org/python-tkinter-tutorial/
 https://gitpress.io/u/1155/tkinter-example-arrow_keys
+https://stackoverflow.com/questions/111155/how-do-i-handle-the-window-close-event-in-tkinter
 """
