@@ -72,7 +72,7 @@ def Roster():
     # return StudentList
 
 def deck(StudentList, deckList, listIndex, ind):
-    random.shuffle(StudentList)
+    #random.shuffle(StudentList)
     global times_limit
     if (len(deckList) == 4): #When deck is full we just have to pop whatever index has been sent in then do the same as the for loop below
         current_student = deckList.pop(listIndex) #since deck is full we're going to pop whoever was called
@@ -83,15 +83,21 @@ def deck(StudentList, deckList, listIndex, ind):
         StudentList.append(current_student)
         for i in range (0, len(StudentList)):
 #Loop through StudentList to find someone that doesn't have a flag and add them back into Deck
+            print("value of i " , len(deckList))
             if (StudentList[i].times_called < times_limit):
                 deckList.append(StudentList[i])
                 StudentList.pop(i)
                 return deckList, StudentList
+            
+        times_limit += 1
+        deckList.append(StudentList[0])
+        StudentList.pop(0)
+        return deckList,StudentList
+
 #When everyone has been called hits times_limit we update times_limit so everyone now has
 # an equal chance of being called again
+# If everyone has been called then we just push the first person in the StudentList into deck and pop them out of StudentList
 #Note: People on deck haven't been called as of yet 
-        times_called += 1
-        return
 
     for i in range(0,4): #This will add people to our deck and add them to the back of the studentList
         deckList.append(StudentList[i])

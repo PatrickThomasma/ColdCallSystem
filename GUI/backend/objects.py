@@ -16,6 +16,7 @@ class Student:
         self.flags = flags
         self.times_called = times_called
         self.flag_count = flag_count
+        #self.total_called = total_called
 
     def student_display(self):
         return (self.first, self.last)
