@@ -62,7 +62,7 @@ def testAction(event=None):
         dockInd = random.randint(0, 3)
         isFlag = random.randint(0, 1)
         DockList , StudentList = deck(StudentList, DockList, dockInd, isFlag)
-        print(n)
+        #print(n)
         update_button()
     print("done")
 
@@ -112,6 +112,7 @@ def rightKey(event): #update list index until it hits the end of the list, keep 
     buttons[listIndex].config({"foreground": "Black"})
 
 def exitWindow(event):
+#This function is when the user clicks on the red X on the window, file_error is called into if there's not file in the directory and we will have the user restart so they can run the program again with the file hopefully in the location
     global StudentList
     global file_error
     global DockList
@@ -123,7 +124,9 @@ def exitWindow(event):
         root.destroy()
     #sys.exit()
 
+
 def on_closing():
+#This is when the user clicks the escape button and it will close the same way as the exitWindow
     global StudentList
     global file_error
     global DockList
@@ -188,11 +191,13 @@ menubar.add_cascade(
 file_exists = os.path.exists("Samplefile.txt")
 file_exists2 = os.path.exists("/records/config.txt")
 if (file_exists == False and file_exists2 == False):
+#If the program is not able to find a roster file in the directories than we will inform the user about it and give them a chance to import a file and restart the program 
     file_error = 1
     lbl1 = Label(root, text = "No roster file found please import file type of .xlsx into this directory and restart program", font = ("Arial",15))
     lbl1.config(anchor=CENTER)
     lbl1.pack()
     root.protocol("WM_DELETE_WINDOW", on_closing)
+#GUI will stop here and user will have to exit program and restart to use a roster file
 
     root.bind('<Escape>', exitWindow)
     root.mainloop()
@@ -200,17 +205,17 @@ if (file_exists == False and file_exists2 == False):
 else:
 
 
-    #This is grabbing from roster file!! kewl :))
-    #Right now roster can only find from same directory that GUI.py is in, may need to fix that
-    #StudentList is now a list that contains a bunch of objects with all the information about a particular student
+    #We will go into start_file and check if a config file is there or not
     Check = start_file("log.txt")
     if  Check == True:
+#If there is a config file then we run roster using that file
         #print("hello")
         StudentList = Roster(True)
     else:
+#if not then we will use whatever roster file we were given
         StudentList = Roster(False)
 
-    #This will save the date the program is run into
+#Initialize first instance of DockList
     DockList = []
     #Calling deck function in roster.py to get people into cold call system and to remove from front of StudentList and append back into that list
     DockList , StudentList = deck(StudentList, DockList, 0 , 0)
