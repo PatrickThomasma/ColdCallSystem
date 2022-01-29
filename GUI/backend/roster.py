@@ -18,6 +18,7 @@ from datetime import date
 times_limit = 1
 
 def Roster(exists):
+    print("Does it exist?" ,exists)
     StudentList = []
     AddStudent=[]
     #function here will open file 
@@ -42,16 +43,18 @@ def Roster(exists):
         return StudentList
     if exists == True:
         full_path = os.path.join(os.path.dirname(os.path.realpath(__file__)),"../config")
-        file_location = os.path.join(full_path, "Config.txt")
-        with open(file_location, "r") as f:
+        #file_location = os.path.join(full_path, "config.txt")
+        #print(file_location)
+        with open(os.path.join(full_path, "config.txt"),  "r") as f:
+            #print(f.readline())
             f = f.readlines()
             for line in f:
                 split_line = line.strip().split()
                 AddStudent.append(split_line)
             random.shuffle(AddStudent)
             for i in range(0, len(AddStudent)):
-                StudentList.append(Student(AddStudent[i][0], AddStudent[i][1], AddStudent[i][2], AddStudent[i][3], AddStudent[i][4], AddStudent[i][5], AddStudent[i][6], False, AddStudent[i][7], AddStudent[i][8]))
-        return StudentList
+                StudentList.append(Student(AddStudent[i][0], AddStudent[i][1], AddStudent[i][2], AddStudent[i][3], AddStudent[i][4], AddStudent[i][5], AddStudent[i][6], False, int(AddStudent[i][7]), int(AddStudent[i][8]), int(AddStudent[i][9])))
+        return StudentList 
 
     # studentTable=Table.read_table("Samplefile.csv")
     # first= studentTable.column("First Name")
@@ -93,10 +96,11 @@ def deck(StudentList, deckList, listIndex, ind):
             current_student.flag_count += 1 #Update the students flag then put them back into StudentList
             current_student.flags = True
         current_student.times_called += 1
+        current_student.total_called += 1
         StudentList.append(current_student)
         for i in range (0, len(StudentList)):
 #Loop through StudentList to find someone that doesn't have a flag and add them back into Deck
-            print("value of i " , len(deckList))
+            #print("value of i " , len(deckList))
             if (StudentList[i].times_called < times_limit):
                 deckList.append(StudentList[i])
                 StudentList.pop(i)
@@ -113,13 +117,18 @@ def deck(StudentList, deckList, listIndex, ind):
 #Note: People on deck haven't been called as of yet 
 
     for i in range(0,4): #This will add people to our deck and add them to the back of the studentList
+        #print(StudentList)
         deckList.append(StudentList[i])
         StudentList.pop(i)
     #This will return decklist into GUI for example 
     #deckList = [Patrick Thomasma, Kassandra morando, David han, briana vago]
     return deckList , StudentList
 
-def save_roster(filepath, StudentList):
+def save_roster(filepath, StudentList, deckList):
+    print(deckList)
+    for i in range (0, len(deckList)):
+        StudentList.append(deckList[i])
+        #deckList.pop()
     StudentList.sort(key = lambda x: x.last)
     full_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "../config")
     fuller_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "../records")
@@ -150,7 +159,12 @@ def save_roster(filepath, StudentList):
     configname = os.path.join(full_path, "config.txt")
     with open(configname, "w") as config:
         for Student in StudentList:
-            output = "{} {} {} {} {} {} {} {} {} {}".format(Student.first, Student.last, Student.ID, Student.email, Student.phonetic, Student.reveal, Student.LF, Student.times_called, Student.flag_count, Student.total_called)
+            if Student.times_called == times_limit:
+                Student.times_called = 1
+                print(Student.total_called)
+            elif Student.times_called < times_limit:
+                Student.times_called = 0
+            output = "{} {} {} {} {} {} {} {} {} {}".format(Student.first, Student.last, Student.ID, Student.email, Student.phonetic, Student.reveal, Student.LF,Student.times_called, Student.flag_count, Student.total_called)
             output += "\n"
             config.write(output)
         config.close()
@@ -173,9 +187,13 @@ def start_file(filepath):
             output = "----------------\nCold Call app opened on {}\n".format(date.today())
             log.write(output)
 
-    file_exists = os.path.exists("../config/Samplefile.txt")
+    file_exists = os.path.exists("config/config.txt")
+    #print(file_exists)
     if file_exists == True:
-        Roster(True)
+        #Roster(True)
+        return True
+    else:
+        return False
     
 
     return

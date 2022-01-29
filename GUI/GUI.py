@@ -92,22 +92,24 @@ def rightKey(event): #update list index until it hits the end of the list, keep 
 def exitWindow(event):
     global StudentList
     global file_error
+    global DockList
     if file_error == 1:
         root.destroy()
         sys.exit()
     if messagebox.askokcancel("Quit", "Do you want to quit?"):
-        save_roster("SummaryPerformance.txt", StudentList)
+        save_roster("SummaryPerformance.txt", StudentList, deckList)
         root.destroy()
     #sys.exit()
 
 def on_closing():
     global StudentList
     global file_error
+    global DockList
     if file_error == 1:
         root.destroy()
         sys.exit()
     if messagebox.askokcancel("Quit", "Do you want to quit?"):
-        save_roster("SummaryPerformance.txt", StudentList)
+        save_roster("SummaryPerformance.txt", StudentList, DockList)
         root.destroy()
 
 def flag(event): 
@@ -176,8 +178,11 @@ else:
     #This is grabbing from roster file!! kewl :))
     #Right now roster can only find from same directory that GUI.py is in, may need to fix that
     #StudentList is now a list that contains a bunch of objects with all the information about a particular student
-    StudentList = start_file("log.txt")
-    if StudentList == None:
+    Check = start_file("log.txt")
+    if  Check == True:
+        #print("hello")
+        StudentList = Roster(True)
+    else:
         StudentList = Roster(False)
 
     #This will save the date the program is run into
