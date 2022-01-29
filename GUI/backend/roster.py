@@ -24,14 +24,14 @@ def Roster(exists):
     #function here will open file 
     #Have to change filename to a path maybe?
     if exists == False:
-        with open(os.path.join(sys.path[0], "Samplefile.txt") , "r") as f:
+        with open(os.path.join(sys.path[0], importAction()) , "r") as f:
             f = f.readlines()
             for line in f:
                 #Appending each student and their info to a list
                 split_line=line.strip().split()
                 AddStudent.append(split_line)
             #shuffling the list of student info
-            random.shuffle(AddStudent)
+            #random.shuffle(AddStudent)
             #This will add all the information into StudentList
             for i in range(0, len(AddStudent)):
                 StudentList.append(Student(AddStudent[i][0],AddStudent[i][1],AddStudent[i][2],AddStudent[i][3],AddStudent[i][4],AddStudent[i][5],AddStudent[i][6], False , 0, 0, 0))

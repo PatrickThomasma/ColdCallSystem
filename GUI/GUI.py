@@ -43,6 +43,8 @@ def importAction(event=None):
     '''Obtain a user-selected file for import'''
     rosterFile = filedialog.askopenfilename()
     print("Selected: ", rosterFile)
+    filename=os.path.basename(rosterFile)
+    return filename
 
 # def exportAction(event = None):
 #     '''Save current roster data to a new text file'''
