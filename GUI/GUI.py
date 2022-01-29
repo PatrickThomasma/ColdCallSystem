@@ -57,7 +57,9 @@ def testAction(event=None):
         dockInd = random.randint(0, 3)
         isFlag = random.randint(0, 1)
         DockList , StudentList = deck(StudentList, DockList, dockInd, isFlag)
+        print(n)
         update_button()
+    print("done")
 
 #Working up function but methods are kind of messy and obviously not finalized since its using a test version of FILE I/O
 def upKey(event):
