@@ -1063,3 +1063,34 @@ Cold Call app opened on 2022-01-28
  X  Geli Zhang  (ghang2@uoregon.edu)
 =======
 >>>>>>> 745413e (Getting file from GUI.py)
+----------------
+Cold Call app opened on 2022-01-29
+----------------
+Cold Call app opened on 2022-01-29
+----------------
+Cold Call app opened on 2022-01-29
+----------------
+Cold Call app opened on 2022-01-29
+----------------
+Cold Call app opened on 2022-01-29
+----------------
+Cold Call app opened on 2022-01-29
+ X  Cameron Armas  (carmas@uoregon.edu)
+ X  Cameron Barnett  (cbarnett@uoregon.edu)
+ X  Haylee Bart  (hbart@uoregon.edu)
+ X  Nick Colver  (nickc@uoregon.edu)
+    Maya Divine (mdivine@uoregon.edu)
+ X  Fuck Guy  (FuckG@uoregon.edu)
+ X  Cool Guy  (coolz@uoregon.edu)
+    Asshole Guy (ahole@uoregon.edu)
+    David Han (dhan@uoregon.edu)
+    Sean Jones (sjones@uoregon.edu)
+    Tessa Lee (tlee@uoregon.edu)
+    Kassandra Morando (kmorando@uoregon.edu)
+ X  Kelly Smith  (smithk@uoregon.edu)
+    Patrick Thomasma (pthomasm@uoregon.edu)
+    Zoey Turner (zoeyt@uoregon.edu)
+ X  Brianna Vago  (bvago@uoregon.edu)
+ X  Rianna Vee  (riannav@uoregon.edu)
+    Eric Williams (ewilliams@uoregon.edu)
+    Geli Zhang (ghang2@uoregon.edu)
