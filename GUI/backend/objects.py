@@ -5,6 +5,7 @@ Last modified: 01/25/2022
 """
 
 class Student:
+#All information from the roster file is stored here, some values will be 0 if its a new roster file but some of them will already have values if we're continuing from previous iteration
     def __init__(self,first,last,ID,email,phoneticSpelling,revealCode,LF,flags, times_called,flag_count, total_called):
         self.first = first
         self.last = last
@@ -34,6 +35,8 @@ class Student:
  #       if flag==1:
   #          self.flagqueue.append(student)
 #
+
+#Queue class will have us keep track of who is in queue and who is to be popped out next
 class Queue:
     def __init__(self):
         self.queue = []

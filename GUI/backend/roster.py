@@ -26,6 +26,7 @@ from datetime import date
 times_limit = 1
 
 def Roster(exists):
+    #Exists will choose difference between if a user has put a new roster file in or if there's already a config file from a previous use
     print("Does it exist?" ,exists)
     StudentList = []
     AddStudent=[]
@@ -51,6 +52,7 @@ def Roster(exists):
             #print(StudentList[i].first + " " + StudentList[i].last)
         #sys.exit()
         return StudentList
+    #This will do the asame thing as the above code block except will search for the configuration file instead and process that
     if exists == True:
         full_path = os.path.join(os.path.dirname(os.path.realpath(__file__)),"../config")
         #file_location = os.path.join(full_path, "config.txt")
@@ -105,6 +107,7 @@ def deck(StudentList, deckList, listIndex, ind):
         if (ind == 1):
             current_student.flag_count += 1 #Update the students flag then put them back into StudentList
             current_student.flags = True
+#Update the current_student who has just been popped and update their information for the summary and any other information
         current_student.times_called += 1
         current_student.total_called += 1
         StudentList.append(current_student)
@@ -115,7 +118,7 @@ def deck(StudentList, deckList, listIndex, ind):
                 deckList.append(StudentList[i])
                 StudentList.pop(i)
                 return deckList, StudentList
-            
+#When everyone who is not on deck has been called we will update the limit so now everyone has a chance of being called again and then append one of those students onto the deck
         times_limit += 1
         deckList.append(StudentList[0])
         StudentList.pop(0)
@@ -139,7 +142,9 @@ def save_roster(filepath, StudentList, deckList):
     for i in range (0, len(deckList)):
         StudentList.append(deckList[i])
         #deckList.pop()
+#Here we are saving three different information files, Log will be first and tell the user when the GUI was run and who was flagged during that instance
     StudentList.sort(key = lambda x: x.last)
+    #The log file is saved into the config record, fullerpath will be for the summary review
     full_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "../config")
     fuller_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "../records")
     completename = os.path.join(full_path , "log.txt")
@@ -157,9 +162,11 @@ def save_roster(filepath, StudentList, deckList):
     #start_file("SummaryPerformance.txt", 1)
     if not os.path.exists(fuller_path):
         os.mkdir(fuller_path)
+#Here is the summary review which will be overwritten after every use and update the values for Students
     summaryname = os.path.join(fuller_path, filepath)
     with open(summaryname, "w") as summary:
         for Student in StudentList:
+#Student will grab information from one index of StudentList then go into output file
             output = "{} {} {} {} {} {} {} {} {}".format(Student.times_called, Student.flag_count,Student.first,Student.last, Student.ID, Student.email, Student.phonetic, Student.reveal, date.today())
             output += "\n"
             summary.write(output)
@@ -167,8 +174,10 @@ def save_roster(filepath, StudentList, deckList):
         #sys.exit("List is done")
         summary.close()
     configname = os.path.join(full_path, "config.txt")
+#Configuration is the file we are searching for for when the instructor wants to use the program again with the same roster of students and it will keep track if the student was called during the last use
     with open(configname, "w") as config:
         for Student in StudentList:
+#Since the time limit will be reset after everytime the program is used we will decrement everyone who has been called to 1 and everyone who hasn't been called yet to 0 
             if Student.times_called == times_limit:
                 Student.times_called = 1
                 print(Student.total_called)
@@ -184,6 +193,7 @@ def save_roster(filepath, StudentList, deckList):
 
 
 def start_file(filepath):
+#When we start the file we will search if there's a log file and a config file, If there's a log its simple we just append to it, if there isn't a log file we will create the directory for it and just write into the new empty file
     full_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "../config")
     if not os.path.exists(full_path):
         os.mkdir(full_path)
@@ -199,6 +209,7 @@ def start_file(filepath):
 
     file_exists = os.path.exists("config/config.txt")
     #print(file_exists)
+#If a config file exists we will return True to the front end so we know that there's already information stored and we will use that instead of the roster file that was given by the user
     if file_exists == True:
         #Roster(True)
         return True
