@@ -5,7 +5,7 @@ Last modified: 01/25/2022
 """
 
 class Student:
-    def __init__(self,first,last,ID,email,phoneticSpelling,revealCode,LF,flags, times_called,flag_count):
+    def __init__(self,first,last,ID,email,phoneticSpelling,revealCode,LF,flags, times_called,flag_count, total_called):
         self.first = first
         self.last = last
         self.ID = ID
@@ -16,7 +16,7 @@ class Student:
         self.flags = flags
         self.times_called = times_called
         self.flag_count = flag_count
-        #self.total_called = total_called
+        self.total_called = total_called
 
     def student_display(self):
         return (self.first, self.last)

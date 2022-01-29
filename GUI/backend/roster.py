@@ -17,28 +17,41 @@ from datetime import date
 
 times_limit = 1
 
-def Roster():
+def Roster(exists):
     StudentList = []
     AddStudent=[]
     #function here will open file 
     #Have to change filename to a path maybe?
-    with open(os.path.join(sys.path[0], "Samplefile.txt") , "r") as f:
-        f = f.readlines()
-        for line in f:
-            #Appending each student and their info to a list
-            split_line=line.strip().split()
-            AddStudent.append(split_line)
-        #shuffling the list of student info
-        random.shuffle(AddStudent)
-        #This will add all the information into StudentList
-        for i in range(0, len(AddStudent)):
-            StudentList.append(Student(AddStudent[i][0],AddStudent[i][1],AddStudent[i][2],AddStudent[i][3],AddStudent[i][4],AddStudent[i][5],AddStudent[i][6], False , 0, 0))
+    if exists == False:
+        with open(os.path.join(sys.path[0], "Samplefile.txt") , "r") as f:
+            f = f.readlines()
+            for line in f:
+                #Appending each student and their info to a list
+                split_line=line.strip().split()
+                AddStudent.append(split_line)
+            #shuffling the list of student info
+            random.shuffle(AddStudent)
+            #This will add all the information into StudentList
+            for i in range(0, len(AddStudent)):
+                StudentList.append(Student(AddStudent[i][0],AddStudent[i][1],AddStudent[i][2],AddStudent[i][3],AddStudent[i][4],AddStudent[i][5],AddStudent[i][6], False , 0, 0, 0))
 
         #StudentList.sort(key = lambda x: x.last)
         #for i in range (0,len(StudentList)):
             #print(StudentList[i].first + " " + StudentList[i].last)
         #sys.exit()
-    return StudentList
+        return StudentList
+    if exists == True:
+        full_path = os.path.join(os.path.dirname(os.path.realpath(__file__)),"../config")
+        file_location = os.path.join(full_path, "Config.txt")
+        with open(file_location, "r") as f:
+            f = f.readlines()
+            for line in f:
+                split_line = line.strip().split()
+                AddStudent.append(split_line)
+            random.shuffle(AddStudent)
+            for i in range(0, len(AddStudent)):
+                StudentList.append(Student(AddStudent[i][0], AddStudent[i][1], AddStudent[i][2], AddStudent[i][3], AddStudent[i][4], AddStudent[i][5], AddStudent[i][6], False, AddStudent[i][7], AddStudent[i][8]))
+        return StudentList
 
     # studentTable=Table.read_table("Samplefile.csv")
     # first= studentTable.column("First Name")
@@ -109,6 +122,7 @@ def deck(StudentList, deckList, listIndex, ind):
 def save_roster(filepath, StudentList):
     StudentList.sort(key = lambda x: x.last)
     full_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "../config")
+    fuller_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "../records")
     completename = os.path.join(full_path , "log.txt")
     with open(completename , "a") as roster:
         for Student in StudentList:
@@ -122,7 +136,9 @@ def save_roster(filepath, StudentList):
                 roster.write(output)
         roster.close()
     #start_file("SummaryPerformance.txt", 1)
-    summaryname = os.path.join(full_path, filepath)
+    if not os.path.exists(fuller_path):
+        os.mkdir(fuller_path)
+    summaryname = os.path.join(fuller_path, filepath)
     with open(summaryname, "a") as summary:
         for Student in StudentList:
             output = "{} {} {} {} {} {} {} {} {}".format(Student.times_called, Student.flag_count,Student.first,Student.last, Student.ID, Student.email, Student.phonetic, Student.reveal, date.today())
@@ -131,7 +147,15 @@ def save_roster(filepath, StudentList):
             
         #sys.exit("List is done")
         summary.close()
-    sys.exit("Testing")
+    configname = os.path.join(full_path, "config.txt")
+    with open(configname, "w") as config:
+        for Student in StudentList:
+            output = "{} {} {} {} {} {} {} {} {} {}".format(Student.first, Student.last, Student.ID, Student.email, Student.phonetic, Student.reveal, Student.LF, Student.times_called, Student.flag_count, Student.total_called)
+            output += "\n"
+            config.write(output)
+        config.close()
+    return
+    
         #We will save roster informaiton here with times called and how many times are student was flagged
 
 
@@ -139,10 +163,21 @@ def start_file(filepath):
     full_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "../config")
     if not os.path.exists(full_path):
         os.mkdir(full_path)
-    file_location = os.path.join(full_path,'log.txt')
-    with open(file_location, "a") as log:
-        output = "----------------\nCold Call app opened on {}\n".format(date.today())
-        log.write(output)
+        file_location = os.path.join(full_path,'log.txt')
+        with open(file_location, "a") as log:
+            output = "----------------\nCold Call app opened on {}\n".format(date.today())
+            log.write(output)
+    else:
+        file_location = os.path.join (full_path, 'log.txt')
+        with open(file_location, "a") as log:
+            output = "----------------\nCold Call app opened on {}\n".format(date.today())
+            log.write(output)
+
+    file_exists = os.path.exists("../config/Samplefile.txt")
+    if file_exists == True:
+        Roster(True)
+    
+
     return
     #This will log the dates then information from save roster will come after
 

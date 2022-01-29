@@ -12,6 +12,7 @@ from tkinter import *
 from tkinter import filedialog
 from tkinter import messagebox
 import os
+from os.path import exists
 import time
 import sys # for exit w esc
 from backend.objects import *
@@ -21,7 +22,7 @@ from backend.roster import *
 
 # exRandomList = ["AA", "AB", "AC", "AD"]
 #listIndex will keep track of which student the user currently has selected
-
+file_error = -1
 listIndex = 0
 
 #Runs the window
@@ -90,12 +91,21 @@ def rightKey(event): #update list index until it hits the end of the list, keep 
 
 def exitWindow(event):
     global StudentList
+    global file_error
+    if file_error == 1:
+        root.destroy()
+        sys.exit()
     if messagebox.askokcancel("Quit", "Do you want to quit?"):
         save_roster("SummaryPerformance.txt", StudentList)
         root.destroy()
     #sys.exit()
 
 def on_closing():
+    global StudentList
+    global file_error
+    if file_error == 1:
+        root.destroy()
+        sys.exit()
     if messagebox.askokcancel("Quit", "Do you want to quit?"):
         save_roster("SummaryPerformance.txt", StudentList)
         root.destroy()
@@ -107,6 +117,7 @@ def flag(event):
     #Same as Up function but just different Keys
     DockList, StudentList = deck(StudentList,DockList, listIndex, 1)
     update_button()
+
 '''
 StudentList = []
 flags = []
@@ -120,17 +131,6 @@ with open(os.path.join(sys.path[0], "Samplefile.txt"), "r") as f:
             flags.append(int(studentclass[len(f)]))
 '''
 
-# Should we organize part of the code into a main()?
-
-#This is grabbing from roster file!! kewl :))
-#Right now roster can only find from same directory that GUI.py is in, may need to fix that
-StudentList = Roster()
-#StudentList is now a list that contains a bunch of objects with all the information about a particular student
-start_file("log.txt")
-#This will save the date the program is run into
-DockList = []
-#Calling deck function in roster.py to get people into cold call system and to remove from front of StudentList and append back into that list
-DockList , StudentList = deck(StudentList, DockList, 0 , 0)
 root = Tk()
 root.geometry("900x100+300+850")
 root.minsize(900,100)
@@ -158,41 +158,68 @@ menubar.add_cascade(
     underline=0
 )
 
+file_exists = os.path.exists("Samplefile.txt")
+file_exists2 = os.path.exists("/records/config.txt")
+if (file_exists == False and file_exists2 == False):
+    file_error = 1
+    lbl1 = Label(root, text = "No roster file found please import file type of .xlsx into this directory and restart program", font = ("Arial",15))
+    lbl1.config(anchor=CENTER)
+    lbl1.pack()
+    root.protocol("WM_DELETE_WINDOW", on_closing)
 
-root.title("Cold Call")
-root.attributes("-topmost", True)
-#All of the root functions here setup the window
-myLabel1 = Label(root, text= "Student Dock" , font=("Arial", 20))
-myLabel1.grid(row = 0, column = 1, padx = 5, pady = 5)
+    root.bind('<Escape>', exitWindow)
+    root.mainloop()
 
-##myLabel2 = Label(root, text=studentList[1], font=("Arial", 20))
-##myLabel2.grid(row=0, column=1)
+else:
 
-##myLabel3 = Label(root, text=studentList[2], font=("Arial", 20))
-##myLabel3.grid(row=0, column=2)
 
-##myLabel4 = Label(root, text=studentList[3], font=("Arial", 20))
-##myLabel4.grid(row=0, column=3)
+    #This is grabbing from roster file!! kewl :))
+    #Right now roster can only find from same directory that GUI.py is in, may need to fix that
+    #StudentList is now a list that contains a bunch of objects with all the information about a particular student
+    StudentList = start_file("log.txt")
+    if StudentList == None:
+        StudentList = Roster(False)
 
-# from my understanding of the project we will only need 4 buttons as those are the students who will be displayed in the cold call
+    #This will save the date the program is run into
+    DockList = []
+    #Calling deck function in roster.py to get people into cold call system and to remove from front of StudentList and append back into that list
+    DockList , StudentList = deck(StudentList, DockList, 0 , 0)
 
-#Should change the background color here maybe? He specifies how the coloring should look a little bit on SRS
-button0 = Label(root, text = DockList[0].first + ' ' + DockList[0].last, bg = "Blue", fg = "white", padx = 30, relief = RAISED, width = 10, font = ("Arial",12))
-button0.grid(row = 1, column = 1, padx = 5, pady = 5)
 
-button1 = Label(root, text = DockList[1].first + ' ' + DockList[1].last, bg = "Blue", fg = "white", padx = 30, relief = RAISED, width = 10, font = ("Arial",12))
-button1.grid(row = 1, column = 2, padx = 5, pady = 5)
+    root.title("Cold Call")
+    root.attributes("-topmost", True)
+    #All of the root functions here setup the window
+    myLabel1 = Label(root, text= "Student Dock" , font=("Arial", 20))
+    myLabel1.grid(row = 0, column = 1, padx = 5, pady = 5)
 
-button2 = Label(root, text = DockList[2].first + ' ' + DockList[2].last, bg = "Blue", fg = "white", padx = 30, relief = RAISED, width = 10, font = ("Arial",12))
-button2.grid(row = 1, column = 3, padx = 5, pady = 5)
+    ##myLabel2 = Label(root, text=studentList[1], font=("Arial", 20))
+    ##myLabel2.grid(row=0, column=1)
 
-button3 = Label(root, text = DockList[3].first + ' ' + DockList[3].last, bg = "Blue", fg = "white", padx = 30, relief = RAISED, width = 10, font = ("Arial",12))
-button3.grid(row = 1, column = 4, padx = 5, pady = 5)
-#All of these will be buttons for the deck
-buttons = [button0,button1,button2,button3]
-#Right now the program has the first position highlighted but after reading SRS it should be dependent on whether the instructor presses left or right first, have to fix that
-button0.config({"background": "White"})
-button0.config({"foreground": "Black"})
+    ##myLabel3 = Label(root, text=studentList[2], font=("Arial", 20))
+    ##myLabel3.grid(row=0, column=2)
+
+    ##myLabel4 = Label(root, text=studentList[3], font=("Arial", 20))
+    ##myLabel4.grid(row=0, column=3)
+
+    # from my understanding of the project we will only need 4 buttons as those are the students who will be displayed in the cold call
+
+    #Should change the background color here maybe? He specifies how the coloring should look a little bit on SRS
+    button0 = Label(root, text = DockList[0].first + ' ' + DockList[0].last, bg = "Blue", fg = "white", padx = 30, relief = RAISED, width = 10, font = ("Arial",12))
+    button0.grid(row = 1, column = 1, padx = 5, pady = 5)
+
+    button1 = Label(root, text = DockList[1].first + ' ' + DockList[1].last, bg = "Blue", fg = "white", padx = 30, relief = RAISED, width = 10, font = ("Arial",12))
+    button1.grid(row = 1, column = 2, padx = 5, pady = 5)
+
+    button2 = Label(root, text = DockList[2].first + ' ' + DockList[2].last, bg = "Blue", fg = "white", padx = 30, relief = RAISED, width = 10, font = ("Arial",12))
+    button2.grid(row = 1, column = 3, padx = 5, pady = 5)
+
+    button3 = Label(root, text = DockList[3].first + ' ' + DockList[3].last, bg = "Blue", fg = "white", padx = 30, relief = RAISED, width = 10, font = ("Arial",12))
+    button3.grid(row = 1, column = 4, padx = 5, pady = 5)
+    #All of these will be buttons for the deck
+    buttons = [button0,button1,button2,button3]
+    #Right now the program has the first position highlighted but after reading SRS it should be dependent on whether the instructor presses left or right first, have to fix that
+    button0.config({"background": "White"})
+    button0.config({"foreground": "Black"})
 
 # myLabel1 = Label(root, text = "Hello World!")
 # myLabel2 = Label(root, text = "DA")
@@ -203,18 +230,18 @@ button0.config({"foreground": "Black"})
 # myLabel.pack()
 
 #These functions will bind the functions to keyboard and is main control for user
-root.bind("<Left>",leftKey)
-root.bind("<Right>",rightKey)
-root.bind("<Up>",upKey)
-root.bind("<Down>",downKey)
-root.bind("<Q>",flag)
-root.bind("<W>",flag)
-root.bind("<E>",flag)
-root.bind("<R>",flag)
-root.protocol("WM_DELETE_WINDOW", on_closing)
+    root.bind("<Left>",leftKey)
+    root.bind("<Right>",rightKey)
+    root.bind("<Up>",upKey)
+    root.bind("<Down>",downKey)
+    root.bind("<Q>",flag)
+    root.bind("<W>",flag)
+    root.bind("<E>",flag)
+    root.bind("<R>",flag)
+    root.protocol("WM_DELETE_WINDOW", on_closing)
 
-root.bind('<Escape>', exitWindow)
-root.mainloop()
+    root.bind('<Escape>', exitWindow)
+    root.mainloop()
 
 
 """
