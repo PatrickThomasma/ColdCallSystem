@@ -7,10 +7,17 @@ Author: Patrick Thomasma
 Last modified: 01/25/2022
 """
 #if you run this file first it will say no module named backend, just remove it for testing purposes since backend.objects is needed for the GUI.py file import
-from backend.objects import Student, Queue
+# from backend.objects import Student, Queue
+from .objects import Student, Queue
+# import objects
+# from objects import Student, Queue
 
 import os.path
 import sys
+
+# sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# import ..GUI
+
 import random
 from datetime import date
 # import numpy as np
@@ -27,6 +34,7 @@ def Roster(exists):
     if exists == False:
         # with open(os.path.join(sys.path[0], importAction()) , "r") as f:
         with open(os.path.join(sys.path[0], "Samplefile.txt") , "r") as f:
+        # with open(os.path.join(sys.path[0], filename) , "r") as f:
             f = f.readlines()
             for line in f:
                 #Appending each student and their info to a list

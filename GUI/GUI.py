@@ -17,6 +17,8 @@ import time
 import sys # for exit w esc
 from backend.objects import *
 from backend.roster import *
+# import backend.objects
+# import backend.roster
 
 # Test this list, then test sample file, then test through backened pull
 
@@ -44,6 +46,7 @@ def importAction(event=None):
     rosterFile = filedialog.askopenfilename()
     print("Selected: ", rosterFile)
     filename=os.path.basename(rosterFile)
+    print("filename: ", filename)
     return filename
 
 # def exportAction(event = None):
