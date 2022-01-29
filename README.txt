@@ -1,3 +1,6 @@
+# README.txt
+# Author: Kassandra Morando
+
 This system is used for helping an instructor to cold call on their students. It allows an instructor to import a text file that includes the students' information. The system will take the data from the file and display four different names to be "on deck" and the instructor can check off if they have participated or flag them to follow up with them. If a student participates or is flagged, that student is removed from the list and another student is added to the list. It saves the list of students when the application is closed and creates a summary list that includes how many times a student is flagged or has participated.
 
 Authors: David Han, Kassandra Morando, Patrick Thomasma, Brianna Vago, Geli Zhang
