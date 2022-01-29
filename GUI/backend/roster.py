@@ -148,7 +148,7 @@ def save_roster(filepath, StudentList, deckList):
     if not os.path.exists(fuller_path):
         os.mkdir(fuller_path)
     summaryname = os.path.join(fuller_path, filepath)
-    with open(summaryname, "a") as summary:
+    with open(summaryname, "w") as summary:
         for Student in StudentList:
             output = "{} {} {} {} {} {} {} {} {}".format(Student.times_called, Student.flag_count,Student.first,Student.last, Student.ID, Student.email, Student.phonetic, Student.reveal, date.today())
             output += "\n"

@@ -44,6 +44,21 @@ def importAction(event=None):
     rosterFile = filedialog.askopenfilename()
     print("Selected: ", rosterFile)
 
+# def exportAction(event = None):
+#     '''Save current roster data to a new text file'''
+#     newRosterFile = filedialog.askdirectory()
+#     explamefileasdas.write(os.path.join(newRosterFile, 'test.txt'))
+
+def testAction(event=None):
+    '''Tests equal distribution of calls'''
+    global StudentList
+    global DockList
+    for n in range(0, 100):
+        dockInd = random.randint(0, 3)
+        isFlag = random.randint(0, 1)
+        DockList , StudentList = deck(StudentList, DockList, dockInd, isFlag)
+        update_button()
+
 #Working up function but methods are kind of messy and obviously not finalized since its using a test version of FILE I/O
 def upKey(event):
     global StudentList
@@ -97,7 +112,7 @@ def exitWindow(event):
         root.destroy()
         sys.exit()
     if messagebox.askokcancel("Quit", "Do you want to quit?"):
-        save_roster("SummaryPerformance.txt", StudentList, deckList)
+        save_roster("SummaryPerformance.txt", StudentList, DockList)
         root.destroy()
     #sys.exit()
 
@@ -148,7 +163,10 @@ file_menu.add_command(
     label='Import Roster',
     command=lambda:importAction(),
 )
-
+file_menu.add_command(
+    label='Test',
+    command=lambda:testAction(),
+)
 file_menu.add_separator()
 file_menu.add_command(
     label='Exit',
