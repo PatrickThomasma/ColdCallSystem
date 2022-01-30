@@ -1,0 +1,357 @@
+Cold call system 
+Programmer's Documentation
+Code overview
+
+Patrick Thomasma - January 29th 2022
+Group 4
+
+This documentation is meant to assist programmers to make modifications to the code in case there are issues that they have with how the system is run or if they want to add additional features or increase efficiency with the computer. In this document I'll give an overview of
+
+1. Program files
+2. Front end flow
+3. Back end flow
+4. Front end structure
+5. Back end structure
+6. File management
+
+This program was written in python 3.7 on a Ubuntu Linux using the vim editor, this program has been tested and works on Macintosh OS X 10.13 (High Sierra) and 10.14 (Mojave), This program also adhered to the Python Standard Library. All output/documentation is in either PDF or a plain text file.
+
+PROGRAM FILES
+---------------
+The following are the three source code files that are being used to run our program
+
+GUI.py - This file is where the process of our program starts, it is located under the GUI directory and its purpose is to give an User Interface in which the user will interact with and it will handle all initial processes in the code. This file inherits from two backend files called roster.py and objects.py and many of the functions used in those two files will be initialized in this file.
+
+roster.py - This file inherits from objects.py and will also input and output information that is coming from our front-end file GUI.py, as far as the functionality and logic of our program is concerned this is the main file for it since it will not only keeps track of who's on Deck and who's off the Deck but it will also increment values for these objects as needed and determine the appropriate object to be pushed into the front-end, this file also handles file parsing and overwriting files and storing our output information into the appropriate location for the user to navigate into
+
+objects.py - This file initializes a Student object which is the main functionality for storing and increment appropriate data points for the objects in the program, there is also a Queue class in here that can be used by a curious programmer who feels that they want to more readily organize the data stream coming into the front and back end that will process in a faster big O time if they wish to use that class.
+
+Front-End flow
+---------------
+GUI.py - The intention of our program is to be started at GUI.py which can be run using python3 GUI.py, the file will import from appropriate python libraries and also inherit functions from the back-end files, the program will then initialize each function that is on the GUI.py file, when it reaches the end of the functions the program will start using a global variable setup and it will be using programs that have been inherited from python ttkinter, the program starts on line 161 with root = Tk(), this line initializes ttkinter to run on root and after that we set the size of the ttkinter window and where its placed on the screen, after values are set for the window the program will then process a file drop-down menu that is meant to give users options such as importing files into the program and to run an initial test to check if the program is producing random results. There is also an exit functionality in the drop down menu which will close down the program and shut down all processes. After making the menu drop-down functionality we start checking the directories of the program to see if the user and given the program the information it needs to start functionality. 
+  
+  If there is no file found then the program will stop and prompt the user to import a file and restart the program, if files are found the GUI will then check if the program has been used before, if it has then the back-end will send a list using configuration values or a list using initial file parsing values. The program will then tell the back-end to give information to the deck, when the program has information about the deck there will be labels and buttons added onto the GUI in order to represent that information and the program will then hold and wait for input from the user. These functions are more specifically described in front end structure, the functions referred are user_inputted functions that will be initialized and processed when the user has made their choice. There is leftKey(), rightKey() , upKey(), downKey(), flag() , on_closing(), and exitWindow(), many of these functions will also call update_button() function to update information shown to the user after every action.
+
+A simple diagram is written here for a visual explanation of the flow for GUI
+
+python3 GUI.py
+|
+|
+|
+V
+inherits from roster and objects
+|
+|
+|
+V
+root ---> Creates Window
+file_menu ---> Creates drop down window
+|
+|
+|
+V
+file_exists ---> goes to roster for verification
+|	|
+|	|
+|	|
+|       V
+V	Program stop if nothing is in there
+start_file ---> sends to roster checking if there's configuration or not
+|
+|
+|
+V
+DockList,StudentList ---> obtains information from deck() in roster.py
+|
+|
+|
+V
+label(),button() ----> Creates information for user to see
+|
+|
+|
+V
+root.bind("<Left>",leftKey) ---> leftKey()
+root.bind("<Right>",rightKey) --- >rightKey()
+root.bind("<Up>",upKey) ---> upKey ---> roster.py/deck() ---> update_button()
+root.bind("<Down>",downKey) ---> downKey ---> roster.py/deck() ---> update_button()
+root.bind("<Q>",flag) ----> flag() ----> roster.py/deck() ---> update_button()
+root.bind("<W>",flag) ----> flag() ---->  roster.py/deck() ----> update_button()
+root.bind("<E>",flag) ----> flag() ----> roster.py/deck() ---> update_button()
+root.bind("<R>",flag) ----> flag() ----> roster.py/deck() ---> update_button()
+root.protocol("WM_DELETE_WINDOW", on_closing) ----> on_closing() ---> roster.py/save_roster ---> end
+root.bind('<Escape>', exitWindow) ----> exitWindow() ----> roster.py/save_roster ---> end
+root.mainloop() <---> Hold here
+
+---> = Where program goes to
+<---> = Program will stay here till a change
+|
+| = Hierarchy of functions in the program 
+|
+V
+Back-end flow 
+-------------
+objects.py - This file has two classes, a Student() and a Queue(). Inside of the student class there are eleven variable that are being stored , there is a init constructor which stores these variables, student_display function in student class will return the first and last name of the student and printstudent will print the information that is initially shown from the roster file. The queue class follows standard Queue implementation and has a enqueue(), dequeue(), isempty(), and printQueue() functionalities
+
+roster.py - the roster source code file is the primary file used for backend functionality for the GUI setup. The program starts by initializing a global variable times_limit to 1 which will be used later as the primary checking of whether someone has been called on already or not. In terms of order of when each function is used the GUI will call start_file() first, purpose of this function is to check and see if there's a config directory and if there's not it will create one and log the date that the cold call app was opened. 
+ 
+ The program will also look for a configuration text file and if one is not found then it will tell the GUI that the program has not been used yet and that the file that should be processed is the roster file that the user has most recently added in. When the user decides to flag/remove a student from the deck the roster function deck() will be run and in this function the program will increment the appropriate values for the student that has been removed from the deck and start searching for a new student to add, once everyone has already been added to the deck at least once the times_limit variable will be incremented so everyone will now have an equal chance of being back into the queue. 
+ When the user decides to stop running the program the save_roster function will be ran and in here there will be three different output files coming out. Log will tell the user who was flagged on a certain date, Summary will tell the user the students performance over the term, and the configuration will be held so when the user runs the program again we will grab from that file and use the information from last time.
+
+Basic flow of back end goes like this:
+Startfile() ---> Starts making directories and checking whats in the program directories
+|
+|
+|
+V
+roster() ---> Grabs from the files in the directory to reinitialize student objects
+|
+|
+|
+V
+deck() ---> will process information during running of program and update values where needed
+|
+|
+|
+V
+save_roster() ---> when program is done this will save output files in appropriate locations
+
+
+Front-end structure
+-------------------
+GUI.py:
+  LIBRARIES:
+============
+Tkinter library - specific imports are filediloag and messagebox
+os library
+os.path libary, specifically exists function
+time library
+sys library
+Inheritance from objects.py and roster.py in the back-end directory
+
+GLOBAL VARIABLES:
+================
+StudentList - This variable stores the return value from roster.py/roster() and it will be sent into roster.py/deck() and roster.py/save_roster()
+
+file_error - set to -1 and it will change into 1 when either the Samplefile or config.txt file hasn't been found by os.path.exists, this variable will then be used into closing functions to shut the program down without overwriting any files
+
+listIndex - this variable holds which button the user currently has selected and it will be sent as a parameter to roster.py/deck() to keep track of which student is being removed
+
+DockList - This is a list that holds the four students who are on deck and it will be passed into the up/down key functions which is then passed as a parameter into roster.py/deck() so the back-end knows what four students are on deck and which one of those four are being removed, this variable is also sent into roster.py/save_roster as it needs to be emptied out and put into StudentList so we can write all the students into output file
+
+buttons - using tkinter we make buttons that the users can navigate with arrow keys, whenever user navigates over to a different student we will change the colors on the button to indicate what student they currently have selected, the function update_buttons will use buttons to see who's on the returned deck and update the GUI of who is on the deck list
+
+FUNCTIONS:
+===========
+update_button() - this function will update the GUI to represent who is on the DockList since people will be removed from Docklist frequently and we will need to show has been added into it.
+
+importAction() - On the GUI there is a drop down menu and when the user selects import it will go to this function to find the file they have chosen and return it
+
+testAction() - this is a button on the drop down menu and when the user clicks it will run our program 100 times and give out an output file so user can confirm on the randomness of the program
+
+upKey() - When user clicks the up arrow key on their keyboard we will call roster.py/deck() and indicate to the function whether student needs to be flagged or not, on upkey the student will be flagged so we pass StudentList,deckList,listIndex, and 1. 1 will indicate that student has been flagged and we will need to update those specific variables in Student class
+
+downKey() - When user clicks the down key on their keyboard we will do a very similar process as in the upkey function except we will send in the number 0 indicated to roster.py/deck() that this student was not flagged and we do not need to update those values for them
+
+leftKey() - when user clicks the left arrowkey we will change the background and foreground of whichever button index they are on to indicate which student is being navigated away from and which student the user is navigating to, if listIndex variable is at 0 then user is at the very leftmost student so nothing will happen. listIndex will decrement in order to indicate that the process is going up on the list.
+
+rightKey() - When user clicks the right key on their keyboard a similar process will happen with the leftkey except the listIndex will indicate up to go deeper into the buttons list
+
+exitWindow() - When user clicks the escape button the function will ask if the user wants to really quit the program and if they answer yes then we will call roster.py/save_roster() with StudentList and DockList as parameters and then the program will shut down. If user decides not to quit then program will return to waiting for user input, if they are quitting because our program asked them to restart with a file in the directory then we will just shut down the program without calling roster.py/save_roster()
+
+on_closing - similar functionality as exitWindow() except this occurs when user clicks the red X on the top right of the window.
+
+main():
+in main we are using these variables to set up the tkinter window and initial start up of the program
+variables:
+root - this will initialize tkinter window program and we will use geometry and min/maxsize to set the size of the window, config will be used to have menu variable hold menubar variable
+
+menubar - this variable will create a drop down menu based off the root tkinter window
+
+menu - holds menubar
+
+file_menu - this variable will be added onto to create a drop down menu for the user to navigate with
+
+.add_command(Import) - adds a import roster command and calls importAction()
+
+.add_command(test) - adds a test command and calls testAction() for random distribution mode
+
+.add_separator() - separates the test and Exit rows
+
+add_command(Exit) - when user clicks exit the program will completely shut down
+
+add_cascade(File) - all the commands will be shown when File is clicked.
+==========
+file_exists1/2 - both variables are booleans that will check if the program has a Samplefile or a config file
+
+lbl1(False) - if both file_exists come up as False then the program creates a label asking the user to import a roster file into the directory for the program to read into
+
+root.protocol(False) - will call the on_closing() function when user clicks top right red X button with file_error = 1 so it will just close the program without saving any information onto output files
+
+root(Escape)(True) - will call exitWindow() function when user clicks escape and file_error = 1 so it will just close the program without saving any information onto output files
+
+Otherwise if files do exist then we move on with main
+===========
+Check - will call roster.py/start_file() with log.txt as a parameter if the roster.py/start_file() functions finds a config.txt file then check will be True, if not it will be False
+
+Check(True) - will call roster.py/Roster() function with a True parameter
+
+Check(False) - will call roster.py/Roster() function with a False parameter
+
+root.title - Giving window a title called "Cold Call"
+
+root.attributes - ensures window is on top of the stacking order
+
+myLabel1 - using tkinter Label to tell the user of where Student Dock information is
+
+myLabel1.grid - positions where the label is located on the window
+
+button0/1/2/3 - Will use Label tkinter function to and grab from the DockList to properly label in order from left to write who is on the deck and set the background colors to blue and white for complimentary sake.
+
+button0/1/2/3.grid - will position where the button labels are on the window
+
+button0.config = the user will by default have the left most button selected and the background/foreground colors will change to reflect that
+
+root.bind(Left) - binds left arrow key on keyboard to call leftKey() function
+
+root.bind(Right) - binds Right arrow key on keyboard to call rightKey() function
+
+root.bind(Up) - binds up arrow key on keyboard to call upKey() function
+
+root.bind(Down) - binds down arrow key to call downKey() function
+
+root.protocol(True) - when user clicks the red x on top right of window it will call on_closing() function and since file_error should be -1 here it will ask user if they want to quit and if they do then it will send current information on StudentList and DockList into roster.py/save_roster and then shut down program
+
+root.bind(Escape)(True) - will bind escape key on keyboard to call exitWindow function and file_error = 1 at this point
+
+root.mainloop() - program waits here as it waits for inputs from user
+ 
+Back-end Structure
+--------------------
+objects.py:
+Class Student(): this is the class object which holds most of the information for students
+       |
+       |
+       V
+def __init__(): 
+        self.first = first- Holds first name of student
+        self.last = last - Holds last name of student
+        self.ID = ID - Holds Duck ID
+        self.email = email - Holds the students UO email
+        self.phonetic = phoneticSpelling - Phoneticspelling for student
+        self.reveal = revealCode - unix identifier
+        self.LF = LF - unix identifier
+        self.flags = flags - True/False whether student has been flagged or not
+        self.times_called = times_called - total times student has been called on flagged or not
+        self.flag_count = flag_count - total times a student has been flagged
+        self.total_called = total_called - total times student has been called on throughout the term
+def student_display(): This will return the students first and last name
+
+def printStudent(): This will print student information in a similar format as the roster file
+
+class Queue(): basic queue implementation
+def __init__():
+    self.queue - an empty list
+    self.length - length of list
+
+def enqueue(): Pushing students into list
+    self.queue.append - will appened student to list
+    self.length - length will update
+
+def dequeue(): remove student from list
+    element will hold the person that's been dropped from queue and return
+
+def printQueue(): Will print everyone who is in the Queue
+
+roster.py
+ LIBRARIES:
+===========
+Inheritance from objects.py
+
+os library, using path functions
+
+sys libary, using functions path functions
+
+random library, using to shuffle lists
+
+datetime, using date function to record when program is opened
+
+global variables:
+
+times_limit - This variable will be used as the limiter for who will be called on and who has already been called on 
+
+ FUNCTIONS:
+===========
+Roster():
+
+Parameter variable: Exists - boolean variable that is False if thers no config file and True if there is a config file, determines which file is being read into and information that is being grabbed
+
+Local variables:
+
+StudentList - initialized as an empty list that will eventually be filled with Student objects
+
+AddStudent - An empty list that will be turned into a 2D array of items that is being grabbed from a file that is being read into
+
+f - when file is opened this variable will hold the file text IO wrapper
+
+line - will read into the f variable line by line
+
+split_line = will split the line variable a 1D array
+
+random = from the random library it will shuffle around the 2D addstudent array so order that students are being picked on won't be alphabetical
+
+Student() - Student class object that is inherited from objects.py and as we are reading config/samplefile we will grab the values that we want for each respective variable inside that object. For example the first index in AddStudent should have Students first name and that string will be given to self.first in Student object 
+
+full_path - fullpath will be the full directory path to navigate to our configuration value, starting from the directory where roster.py is located the config.txt should be located at ../config
+
+
+File Management
+----------------
+  The Programs' root directory is called ColdCallSystem, when someone navigates into this folder using a terminal or file finder they will see two different directories called docs and GUI, they will also see a file called README.md which should be the first document a user should should read to get an introduction of what the program does. Inside docs directory is all the documentation related to initial proposal of the program and final proposals. These files include the Programmer_Documentation.txt file that you are reading, SRS version 1.0 and 2.0.pdf, SDS version 1.0 and 2.0.pdf, a Project plan 1.0 and 2.0.pdf, a READMME.txt, Installation_instructions.pdf, and a User_Documentation.pdf. 
+  
+  Inside the GUI directory is source code and output files from the program, if the program hasnt been run before then inside the GUI directory there will be a back-end directory and a GUI.py source code file. If the program has been run before then a config directory, records directory, and a Samplefile.txt will be added. Inside the back-end directory will have two source code files called objects.py and roster.py. The config directory will have a log.txt output file, config.txt input/output file, and a config_TEST.txt file. Inside the records directory will have a SummaryPerformance.txt and a SummaryPerformance_TEST.txt output files.
+
+A simple file structure diagram for this program before its been ran looks like this:
+
+				ColdCallSystem/
+                                       |
+      				       |
+				       |
+                                       V
+               README.md------------- GUI/-----------------docs/
+                                       |                      |
+                                       |                      |
+                                       |                      |
+                                       |                      v
+                                       |                 User_Documentation.pdf/Installation_Instructions.txt/                                       |              Programmer_Documentation/README.txt/Project_Planv1.pdf/                                       |               SDSv1.pdf/SRS.pdf
+                                       V
+                                  back-end/-->GUI.py
+                                       |
+                                       |
+                                       |
+                                       V
+                              objects.py/roster.py
+A simple file structure diagram for when the program has been run will look like this:
+
+                                ColdCallSystem/
+                                       |
+                                       |
+                                       |
+                                       V
+               README.md------------- GUI/-----------------docs/
+                                       |                      |
+                                       |                      |
+                                       |                      |
+                                       |                      v
+                                       |                 User_Documentation.pdf/Installation_Instructions.txt/                                       |              Programmer_Documentation/README.txt/Project_Planv1.pdf/                                       |               SDSv1.pdf/SRS.pdf
+                                       V
+               records/ --------------GUI.py------Samplefile.txt----backend/-----------------config/
+                  |                                                   |                        |
+                  |                                                   |                        |
+                  |                                                   |                        |
+                  V                                                   V                        V
+ SummaryPerformance.txt/SummaryPerformance_TEST.txt       objects.py/roster.py    config.txt/config_TEST.txt/                                                                                              log.txt
+Conclusion
+----------
+Hopefully this documentation will help a fellow programmer to understand the current structure and flow of the program so they can make easy modifications to it without worrying if they're going to mess up some unknowing variable/method. This document was based on the thought that went into creating the program and ideas/methods to implement the requirements given to us. 
+If a programmer gets stuck on reading the code they can always refer back to this document for help on what each variable means and why if/else or for loop blocks were used for. While the documentation in the code is solid its believed that this document is the best most detailed guide for programmers to refer to when looking for a guide!
