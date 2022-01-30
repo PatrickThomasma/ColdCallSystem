@@ -35,7 +35,7 @@ def Roster(exists):
     if exists == False:
         # with open(os.path.join(sys.path[0], importAction()) , "r") as f:
         with open(os.path.join(sys.path[0], "Samplefile.txt") , "r") as f:
-        # with open(os.path.join(sys.path[0], filename) , "r") as f:
+        #with open(os.path.join(sys.path[0], filename) , "r") as f:
             f = f.readlines()
             for line in f:
                 #Appending each student and their info to a list
