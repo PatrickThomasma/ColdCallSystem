@@ -21,6 +21,8 @@ from backend.roster import *
 # import backend.objects
 # import backend.roster
 
+from shutil import copy2
+
 # Test this list, then test sample file, then test through backened pull
 
 # exRandomList = ["AA", "AB", "AC", "AD"]
@@ -45,19 +47,25 @@ def update_button():
         buttons[i].config({"text": DockList[i].first + ' ' + DockList[i].last})
 
 
-importedFileDir = None
-importedFileName = None
+# importedFileDir = None
+# importedFileName = None
 def importAction(event=None):
     '''Obtain a user-selected file for import'''
+    root.withdraw()
     rosterFile = filedialog.askopenfilename()
+    fileLoc = filedialog.askdirectory()
+
+    copy2(rosterFile, fileLoc, follow_symlinks=True)
+    root.deiconify()
+
     # print("Selected: ", rosterFile)
-    importedFileDir = rosterFile
-    filename=os.path.basename(rosterFile)
-    # print("filename: ", filename)
-    immportedFileName = filename
-    # return filename
-    print(importedFileDir)
-    print(importedFileName)
+    # importedFileDir = rosterFile
+    # filename=os.path.basename(rosterFile)
+    # # print("filename: ", filename)
+    # immportedFileName = filename
+    # # return filename
+    # print(importedFileDir)
+    # print(importedFileName)
 
 # def exportAction(event = None):
 #     '''Save current roster data to a new text file'''
@@ -187,9 +195,10 @@ with open(os.path.join(sys.path[0], "Samplefile.txt"), "r") as f:
 '''
 
 root = Tk()
-root.geometry("900x100+300+850")
-root.minsize(900,100)
-root.maxsize(900,100)
+# root.geometry("900x100+300+850")
+root.geometry("900x110+300+0")
+root.minsize(900,110)
+root.maxsize(900,110)
 
 
 '''Menu Setup'''
