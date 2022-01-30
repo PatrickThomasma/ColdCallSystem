@@ -24,7 +24,7 @@ from datetime import date
 # from datascience import *
 
 times_limit = 1
-delimVar = ","
+delimVar = ","      # either "," or "\t" for .csv and .txt respectively
 
 def Roster(exists):
     #Exists will choose difference between if a user has put a new roster file in or if there's already a config file from a previous use
@@ -38,6 +38,7 @@ def Roster(exists):
         with open(os.path.join(sys.path[0], "Samplefile.csv") , "r") as f:
         #with open(os.path.join(sys.path[0], filename) , "r") as f:
             f = f.readlines()
+            # next(f) 
             for line in f:
                 #Appending each student and their info to a list
                 split_line=line.strip().split(delimVar)
@@ -169,12 +170,13 @@ def save_roster(filepath, StudentList, deckList):
 #Here is the summary review which will be overwritten after every use and update the values for Students
     summaryname = os.path.join(fuller_path, filepath)
     with open(summaryname, "w") as summary:
+        output = "# Times Called,Flag Count,First Name,Last Name,UO ID,Email,Phoetic Spelling,Reveal Code,LF,Date\n"
         for Student in StudentList:
 #Student will grab information from one index of StudentList then go into output file
             # output = "{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}".format(Student.times_called, Student.flag_count,Student.first,Student.last, Student.ID, Student.email, Student.phonetic, Student.reveal, date.today())
-            output = "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}".format(Student.times_called, delimVar, Student.flag_count, delimVar, Student.first, delimVar, Student.last, delimVar, Student.ID, delimVar, Student.email, delimVar, Student.phonetic, delimVar, Student.reveal, delimVar, date.today())
-            output += "\n"
-            summary.write(output)
+            output += "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}\n".format(Student.times_called, delimVar, Student.flag_count, delimVar, Student.first, delimVar, Student.last, delimVar, Student.ID, delimVar, Student.email, delimVar, Student.phonetic, delimVar, Student.reveal, delimVar, date.today())
+            # output += "\n"
+        summary.write(output)
             
         #sys.exit("List is done")
         summary.close()
@@ -229,12 +231,13 @@ def save_testRoster(filepath, StudentList, deckList):
 #Here is the summary review which will be overwritten after every use and update the values for Students
     summaryname = os.path.join(fuller_path, filepath)
     with open(summaryname, "w") as summary:
+        output = "# Times Called,Flag Count,First Name,Last Name,UO ID,Email,Phoetic Spelling,Reveal Code,LF,Date\n"
         for Student in StudentList:
 #Student will grab information from one index of StudentList then go into output file
             # output = "{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}".format(Student.times_called, Student.flag_count,Student.first,Student.last, Student.ID, Student.email, Student.phonetic, Student.reveal, date.today())
-            output = "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}".format(Student.times_called, delimVar, Student.flag_count, delimVar, Student.first, delimVar, Student.last, delimVar, Student.ID, delimVar, Student.email, delimVar, Student.phonetic, delimVar, Student.reveal, delimVar, date.today())
-            output += "\n"
-            summary.write(output)
+            output += "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}\n".format(Student.times_called, delimVar, Student.flag_count, delimVar, Student.first, delimVar, Student.last, delimVar, Student.ID, delimVar, Student.email, delimVar, Student.phonetic, delimVar, Student.reveal, delimVar, date.today())
+            # output += "\n"
+        summary.write(output)
             
         #sys.exit("List is done")
         summary.close()
@@ -292,3 +295,9 @@ def start_file(filepath):
 
 #if __name__ == "__main__":
 #    main()
+
+
+# EXPORT IDEA
+# prompt export in menu -> return config file by either
+# 1: renamed as roster
+# 2: Overwriting the initial roster file
