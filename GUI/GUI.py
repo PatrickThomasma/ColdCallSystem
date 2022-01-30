@@ -54,9 +54,14 @@ def importAction(event=None):
     root.withdraw()
     rosterFile = filedialog.askopenfilename()
     fileLoc = filedialog.askdirectory()
-
-    copy2(rosterFile, fileLoc, follow_symlinks=True)
-    root.deiconify()
+    filename = os.path.basename(rosterFile)
+    if (rosterFile == 'Samplefile.csv'):
+        if messabox.askokcancel("Test", "This will overwrite current Roster file, do you wish to proceed?"):
+            copy2(rosterFile, fileLoc, follow_symlinks=True)
+            root.deiconify()
+    else:
+        copy2(rosterFile, fileLoc, follow_symlinks=True)
+        root.deiconify()
 
     # print("Selected: ", rosterFile)
     # importedFileDir = rosterFile
@@ -81,7 +86,7 @@ def testAction(event=None):
 
     StudentList = Roster(False)
 
-    if messagebox.askokcancel("Test", "R u sure ab that?"):
+    if messagebox.askokcancel("Test", "Are you sure about that, output files might be overwritten?"):
         for n in range(0, 100):
             dockInd = random.randint(0, 3)
             isFlag = random.randint(0, 1)
@@ -228,11 +233,11 @@ menubar.add_cascade(
 )
 
 file_exists = os.path.exists("Samplefile.txt")
-file_exists2 = os.path.exists("/records/config.txt")
+file_exists2 = os.path.exists("/config/config.txt")
 if (file_exists == False and file_exists2 == False):
 #If the program is not able to find a roster file in the directories than we will inform the user about it and give them a chance to import a file and restart the program 
     file_error = 1
-    lbl1 = Label(root, text = "No roster file found please import file type of .xlsx into this directory and restart program", font = ("Arial",15))
+    lbl1 = Label(root, text = "No roster file found please import file type of .csv into this directory and restart program", font = ("Arial",15))
     lbl1.config(anchor=CENTER)
     lbl1.pack()
     root.protocol("WM_DELETE_WINDOW", on_closing)
@@ -253,6 +258,14 @@ else:
     else:
 #if not then we will use whatever roster file we were given
         StudentList = Roster(False)
+
+    print(file_exists2)
+
+    if file_exists2 == True:
+        if os.path.getmtime("Samplefile.csv") > os.path.getmtime("config/config.txt"):
+            print("Check")
+            StudentList = []
+            StudentList = Roster(False)
 
 #Initialize first instance of DockList
     DockList = []

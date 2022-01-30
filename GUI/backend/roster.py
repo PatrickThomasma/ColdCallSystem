@@ -28,7 +28,7 @@ delimVar = ","      # either "," or "\t" for .csv and .txt respectively
 
 def Roster(exists):
     #Exists will choose difference between if a user has put a new roster file in or if there's already a config file from a previous use
-    print("Does it exist?" ,exists)
+    #print("Does it exist?" ,exists)
     StudentList = []
     AddStudent=[]
     #function here will open file 
@@ -37,8 +37,7 @@ def Roster(exists):
         # with open(os.path.join(sys.path[0], importAction()) , "r") as f:
         with open(os.path.join(sys.path[0], "Samplefile.csv") , "r") as f:
         #with open(os.path.join(sys.path[0], filename) , "r") as f:
-            f = f.readlines()
-            # next(f) 
+            f = f.readlines()[1:] 
             for line in f:
                 #Appending each student and their info to a list
                 split_line=line.strip().split(delimVar)
@@ -47,7 +46,7 @@ def Roster(exists):
             random.shuffle(AddStudent)
             #This will add all the information into StudentList
             for i in range(0, len(AddStudent)):
-                StudentList.append(Student(AddStudent[i][0],AddStudent[i][1],AddStudent[i][2],AddStudent[i][3],AddStudent[i][4],AddStudent[i][5],AddStudent[i][6], False , 0, 0, 0))
+                StudentList.append(Student(AddStudent[i][0],AddStudent[i][1],AddStudent[i][2],AddStudent[i][3],AddStudent[i][4],AddStudent[i][5],AddStudent[i][6], False , int(AddStudent[i][7]), int(AddStudent[i][8]), int(AddStudent[i][9])))
 
         #StudentList.sort(key = lambda x: x.last)
         #for i in range (0,len(StudentList)):
@@ -64,6 +63,7 @@ def Roster(exists):
             f = f.readlines()
             for line in f:
                 split_line = line.strip().split()
+                #print(split_line)
                 AddStudent.append(split_line)
             random.shuffle(AddStudent)
             for i in range(0, len(AddStudent)):
@@ -143,7 +143,7 @@ def save_roster(filepath, StudentList, deckList):
 
     global delimVar
 
-    print(deckList)
+    #print(deckList)
     for i in range (0, len(deckList)):
         StudentList.append(deckList[i])
         #deckList.pop()
@@ -152,6 +152,7 @@ def save_roster(filepath, StudentList, deckList):
     #The log file is saved into the config record, fullerpath will be for the summary review
     full_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "../config")
     fuller_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "../records")
+    roster_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "../")
     completename = os.path.join(full_path , "log.txt")
     with open(completename , "a") as roster:
         for Student in StudentList:
@@ -187,7 +188,7 @@ def save_roster(filepath, StudentList, deckList):
 #Since the time limit will be reset after everytime the program is used we will decrement everyone who has been called to 1 and everyone who hasn't been called yet to 0 
             if Student.times_called == times_limit:
                 Student.times_called = 1
-                print(Student.total_called)
+                #print(Student.total_called)
             elif Student.times_called < times_limit:
                 Student.times_called = 0
             output = "{} {} {} {} {} {} {} {} {} {}".format(Student.first, Student.last, Student.ID, Student.email, Student.phonetic, Student.reveal, Student.LF,Student.times_called, Student.flag_count, Student.total_called)
@@ -204,7 +205,7 @@ def save_testRoster(filepath, StudentList, deckList):
 
     global delimVar
 
-    print(deckList)
+    #print(deckList)
     for i in range (0, len(deckList)):
         StudentList.append(deckList[i])
         #deckList.pop()
@@ -248,13 +249,22 @@ def save_testRoster(filepath, StudentList, deckList):
 #Since the time limit will be reset after everytime the program is used we will decrement everyone who has been called to 1 and everyone who hasn't been called yet to 0 
             if Student.times_called == times_limit:
                 Student.times_called = 1
-                print(Student.total_called)
+                #print(Student.total_called)
             elif Student.times_called < times_limit:
                 Student.times_called = 0
             output = "{} {} {} {} {} {} {} {} {} {}".format(Student.first, Student.last, Student.ID, Student.email, Student.phonetic, Student.reveal, Student.LF,Student.times_called, Student.flag_count, Student.total_called)
             output += "\n"
             config.write(output)
         config.close()
+    rostername = os.path.join(roster_path, "Samplefile.csv")
+    with open(rostername, "w") as roster:
+        output = "First Name, Last Name, UO ID, Email, Phoetic Spelling, Reveal Code, LF, times_called, total_called,flag_ct\n"
+        for Student in StudentList:
+            output += "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}\n".format(Student.first,delimVar,Student.last,delimVar,Student.ID,delimVar,Student.email,delimVar,Student.phonetic,delimVar,Student.reveal,delimVar,Student.LF,delimVar,Student.times_called,delimVar,Student.flag_count,delimVar,Student.total_called)
+            roster.write(output)
+        roster.close()
+
+ 
     return
 
 
