@@ -25,7 +25,7 @@ from datetime import date
 
 times_limit = 1
 
-def Roster(exists):
+def Roster(exists,filename):
     #Exists will choose difference between if a user has put a new roster file in or if there's already a config file from a previous use
     print("Does it exist?" ,exists)
     StudentList = []
@@ -34,8 +34,8 @@ def Roster(exists):
     #Have to change filename to a path maybe?
     if exists == False:
         # with open(os.path.join(sys.path[0], importAction()) , "r") as f:
-        with open(os.path.join(sys.path[0], "Samplefile.txt") , "r") as f:
-        # with open(os.path.join(sys.path[0], filename) , "r") as f:
+        #with open(os.path.join(sys.path[0], "Samplefile.txt") , "r") as f:
+        with open(os.path.join(sys.path[0], filename) , "r") as f:
             f = f.readlines()
             for line in f:
                 #Appending each student and their info to a list

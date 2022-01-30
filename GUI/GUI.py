@@ -173,6 +173,7 @@ file_menu.add_command(
     label='Import Roster',
     command=lambda:importAction(),
 )
+filename=lambda:importAction()
 file_menu.add_command(
     label='Test',
     command=lambda:testAction(),
@@ -210,10 +211,10 @@ else:
     if  Check == True:
 #If there is a config file then we run roster using that file
         #print("hello")
-        StudentList = Roster(True)
+        StudentList = Roster(True,filename)
     else:
 #if not then we will use whatever roster file we were given
-        StudentList = Roster(False)
+        StudentList = Roster(False,filename)
 
 #Initialize first instance of DockList
     DockList = []
