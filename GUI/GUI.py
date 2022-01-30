@@ -63,26 +63,36 @@ def update_button():
 
 # importedFileDir = None
 # importedFileName = None       
-def importAction(event=None):
+def importAction():
     '''Obtain a user-selected file for import'''
 
     global root
 
-    root.withdraw()
-    rosterFile = filedialog.askopenfilename()
-    fileLoc = filedialog.askdirectory()
-    filename = os.path.basename(rosterFile)
-    if (filename == 'Samplefile.csv'):
-        if messagebox.askokcancel("Test", "This will overwrite current Roster file, do you wish to proceed?"):
+    if messagebox.askokcancel("Import", "Please select the desired import file, then select the desired file location. A restart of the program will be required in order for changes to go into effect."):
+
+        root.withdraw()
+        rosterFile = filedialog.askopenfilename()
+        fileLoc = filedialog.askdirectory()
+        filename = os.path.basename(rosterFile)
+        if (filename == 'Samplefile.csv'):
+            if messagebox.askokcancel("Test", "This will overwrite current Roster file, do you wish to proceed?"):
+                copy2(rosterFile, fileLoc, follow_symlinks=True)
+                # root.deiconify()
+                # root.destroy()
+                # messagebox.showinfo("Restart", "Import complete. Please restart the program.")
+                # restart_program()
+        else:
             copy2(rosterFile, fileLoc, follow_symlinks=True)
-            root.deiconify()
-    else:
-        copy2(rosterFile, fileLoc, follow_symlinks=True)
+            # root.deiconify()
+            # root.destroy()
+            # messagebox.showinfo("Restart", "Import complete. Please restart the program.")
+            # restart_program()
+        messagebox.showinfo("Restart", "Import complete. Please restart the program.")
         root.deiconify()
-    root.destroy
-    messagebox.showinfo("Restart", "Import complete. Please restart the program.")
-    # restart_program()
-    sys.exit
+        root.destroy()
+    
+    else:
+        messagebox.showinfo("Import", "Import cancelled")
 
     # print("Selected: ", rosterFile)
     # importedFileDir = rosterFile
