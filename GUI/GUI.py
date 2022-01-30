@@ -14,7 +14,8 @@ from tkinter import messagebox
 import os
 from os.path import exists
 import time
-import sys # for exit w esc
+import sys
+from unittest import TestCase # for exit w esc
 from backend.objects import *
 from backend.roster import *
 # import backend.objects
@@ -41,13 +42,20 @@ def update_button():
     for i in range(4):
         buttons[i].config({"text": DockList[i].first + ' ' + DockList[i].last})
 
+
+importedFileDir = None
+importedFileName = None
 def importAction(event=None):
     '''Obtain a user-selected file for import'''
     rosterFile = filedialog.askopenfilename()
-    print("Selected: ", rosterFile)
+    # print("Selected: ", rosterFile)
+    importedFileDir = rosterFile
     filename=os.path.basename(rosterFile)
-    print("filename: ", filename)
-    return filename
+    # print("filename: ", filename)
+    immportedFileName = filename
+    # return filename
+    print(importedFileDir)
+    print(importedFileName)
 
 # def exportAction(event = None):
 #     '''Save current roster data to a new text file'''
@@ -58,14 +66,23 @@ def testAction(event=None):
     '''Tests equal distribution of calls'''
     global StudentList
     global DockList
+    
+    global testCheck
+
+    StudentList = Roster(False)
+
     if messagebox.askokcancel("Test", "R u sure ab that?"):
         for n in range(0, 100):
             dockInd = random.randint(0, 3)
             isFlag = random.randint(0, 1)
+            # DockList , StudentList = deck(StudentList, DockList, dockInd, isFlag)
             DockList , StudentList = deck(StudentList, DockList, dockInd, isFlag)
             #print(n)
             update_button()
     print("done")
+    testCheck = 1
+    on_closing()
+    #have this make its own configs
 
 #Working up function but methods are kind of messy and obviously not finalized since its using a test version of FILE I/O
 def upKey(event):
@@ -131,11 +148,17 @@ def on_closing():
     global StudentList
     global file_error
     global DockList
+
+    global testCheck
+
     if file_error == 1:
         root.destroy()
         sys.exit()
     if messagebox.askokcancel("Quit", "Do you want to quit?"):
-        save_roster("SummaryPerformance.txt", StudentList, DockList)
+        if testCheck == 1:
+            save_testRoster("SummaryPerformance_TEST.txt", StudentList, DockList)
+        else:
+            save_roster("SummaryPerformance.txt", StudentList, DockList)
         root.destroy()
 
 def flag(event): 
@@ -174,6 +197,7 @@ file_menu.add_command(
     label='Import Roster',
     command=lambda:importAction(),
 )
+
 file_menu.add_command(
     label='Test',
     command=lambda:testAction(),
@@ -181,7 +205,8 @@ file_menu.add_command(
 file_menu.add_separator()
 file_menu.add_command(
     label='Exit',
-    command=root.destroy,
+    # command=root.destroy,
+    command=lambda:on_closing(),
 )
 menubar.add_cascade(
     label="File",

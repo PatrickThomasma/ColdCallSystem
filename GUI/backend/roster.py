@@ -191,6 +191,63 @@ def save_roster(filepath, StudentList, deckList):
     
         #We will save roster informaiton here with times called and how many times are student was flagged
 
+'''TEST FILE CREATE HERE'''
+
+def save_testRoster(filepath, StudentList, deckList):
+    print(deckList)
+    for i in range (0, len(deckList)):
+        StudentList.append(deckList[i])
+        #deckList.pop()
+#Here we are saving three different information files, Log will be first and tell the user when the GUI was run and who was flagged during that instance
+    StudentList.sort(key = lambda x: x.last)
+    #The log file is saved into the config record, fullerpath will be for the summary review
+    full_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "../config")
+    fuller_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "../records")
+    completename = os.path.join(full_path , "log.txt")
+    with open(completename , "a") as roster:
+        for Student in StudentList:
+            if Student.flags == True:
+                output = "{} {} {}  ({})".format(" X " , Student.first, Student.last,Student.email)
+                output += "\n"
+                roster.write(output)
+            else:
+                output = "{} {} {} ({})".format("   ", Student.first, Student.last,Student.email)
+                output += "\n"
+                roster.write(output)
+        roster.close()
+    #start_file("SummaryPerformance.txt", 1)
+    if not os.path.exists(fuller_path):
+        os.mkdir(fuller_path)
+#Here is the summary review which will be overwritten after every use and update the values for Students
+    summaryname = os.path.join(fuller_path, filepath)
+    with open(summaryname, "w") as summary:
+        for Student in StudentList:
+#Student will grab information from one index of StudentList then go into output file
+            output = "{} {} {} {} {} {} {} {} {}".format(Student.times_called, Student.flag_count,Student.first,Student.last, Student.ID, Student.email, Student.phonetic, Student.reveal, date.today())
+            output += "\n"
+            summary.write(output)
+            
+        #sys.exit("List is done")
+        summary.close()
+    configname = os.path.join(full_path, "config_TEST.txt")
+#Configuration is the file we are searching for for when the instructor wants to use the program again with the same roster of students and it will keep track if the student was called during the last use
+    with open(configname, "w") as config:
+        for Student in StudentList:
+#Since the time limit will be reset after everytime the program is used we will decrement everyone who has been called to 1 and everyone who hasn't been called yet to 0 
+            if Student.times_called == times_limit:
+                Student.times_called = 1
+                print(Student.total_called)
+            elif Student.times_called < times_limit:
+                Student.times_called = 0
+            output = "{} {} {} {} {} {} {} {} {} {}".format(Student.first, Student.last, Student.ID, Student.email, Student.phonetic, Student.reveal, Student.LF,Student.times_called, Student.flag_count, Student.total_called)
+            output += "\n"
+            config.write(output)
+        config.close()
+    return
+
+
+'''TEST FILE CREATE ENDS HERE'''
+
 
 def start_file(filepath):
 #When we start the file we will search if there's a log file and a config file, If there's a log its simple we just append to it, if there isn't a log file we will create the directory for it and just write into the new empty file
