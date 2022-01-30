@@ -10,7 +10,7 @@ Cool Guy 951696969 coolz@uoregon.edu Ice-Cool [] 0 1 0 1
 David Han 951231415 dhan@uoregon.edu Day-vid [] 0 0 0 0
 Percy Jackson 945221733 pjackson@uoregon.edu Per-cee [] 0 1 1 1
 Sean Jones 950123845 sjones@uoregon.edu Sh-awn [] 0 1 0 1
-Jim Lake 945626452 jlake@uoregon.edu Jim [] 0 1 1 1
+Jim Lake 945626452 jlake@uoregon.edu Jim [] 0 2 1 2
 Tessa Lee 938297921 tlee@uoregon.edu Tes-uh [] 0 1 1 1
 Draco Malfoy 923457564 dmalfoy@uoregon.edu Dr-aco [] 0 1 0 1
 Macho Man 952521512 mman@uoregon.edu ma-cho [] 0 1 1 1

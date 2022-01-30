@@ -11,7 +11,7 @@
 0,0,David,Han,951231415,dhan@uoregon.edu,Day-vid,[],2022-01-30
 1,1,Percy,Jackson,945221733,pjackson@uoregon.edu,Per-cee,[],2022-01-30
 1,0,Sean,Jones,950123845,sjones@uoregon.edu,Sh-awn,[],2022-01-30
-1,1,Jim,Lake,945626452,jlake@uoregon.edu,Jim,[],2022-01-30
+2,1,Jim,Lake,945626452,jlake@uoregon.edu,Jim,[],2022-01-30
 1,1,Tessa,Lee,938297921,tlee@uoregon.edu,Tes-uh,[],2022-01-30
 1,0,Draco,Malfoy,923457564,dmalfoy@uoregon.edu,Dr-aco,[],2022-01-30
 1,1,Macho,Man,952521512,mman@uoregon.edu,ma-cho,[],2022-01-30

@@ -47,21 +47,42 @@ def update_button():
         buttons[i].config({"text": DockList[i].first + ' ' + DockList[i].last})
 
 
+# def restart_program():
+#     '''Restarts the current program'''
+
+#     global root
+
+#     # print("In restart")
+#     # python = sys.executable
+#     # print(sys.executable)
+#     # print(sys.argv)
+#     # os.execl(python, python, * sys.argv)
+#     root.destroy()
+#     root = Tk()
+#     root.mainloop()
+
 # importedFileDir = None
-# importedFileName = None
+# importedFileName = None       
 def importAction(event=None):
     '''Obtain a user-selected file for import'''
+
+    global root
+
     root.withdraw()
     rosterFile = filedialog.askopenfilename()
     fileLoc = filedialog.askdirectory()
     filename = os.path.basename(rosterFile)
-    if (rosterFile == 'Samplefile.csv'):
-        if messabox.askokcancel("Test", "This will overwrite current Roster file, do you wish to proceed?"):
+    if (filename == 'Samplefile.csv'):
+        if messagebox.askokcancel("Test", "This will overwrite current Roster file, do you wish to proceed?"):
             copy2(rosterFile, fileLoc, follow_symlinks=True)
             root.deiconify()
     else:
         copy2(rosterFile, fileLoc, follow_symlinks=True)
         root.deiconify()
+    root.destroy
+    messagebox.showinfo("Restart", "Import complete. Please restart the program.")
+    # restart_program()
+    sys.exit
 
     # print("Selected: ", rosterFile)
     # importedFileDir = rosterFile
@@ -232,7 +253,7 @@ menubar.add_cascade(
     underline=0
 )
 
-file_exists = os.path.exists("Samplefile.txt")
+file_exists = os.path.exists("Samplefile.csv")
 file_exists2 = os.path.exists("/config/config.txt")
 if (file_exists == False and file_exists2 == False):
 #If the program is not able to find a roster file in the directories than we will inform the user about it and give them a chance to import a file and restart the program 
