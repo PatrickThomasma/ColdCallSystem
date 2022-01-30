@@ -24,7 +24,7 @@ from datetime import date
 # from datascience import *
 
 times_limit = 1
-delimVar = " ,"
+delimVar = ","
 
 def Roster(exists):
     #Exists will choose difference between if a user has put a new roster file in or if there's already a config file from a previous use
