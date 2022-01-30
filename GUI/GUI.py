@@ -28,6 +28,8 @@ from backend.roster import *
 file_error = -1
 listIndex = 0
 
+testCheck = 0
+
 #Runs the window
 
 # def toggleStudent(n):
@@ -154,6 +156,8 @@ def on_closing():
     if file_error == 1:
         root.destroy()
         sys.exit()
+
+    print("Testcheck flag: ", testCheck)
     if messagebox.askokcancel("Quit", "Do you want to quit?"):
         if testCheck == 1:
             save_testRoster("SummaryPerformance_TEST.txt", StudentList, DockList)
@@ -207,7 +211,7 @@ file_menu.add_command(
     label='Exit',
     # command=root.destroy,
     command=lambda:on_closing(),
-)
+)   
 menubar.add_cascade(
     label="File",
     menu=file_menu,

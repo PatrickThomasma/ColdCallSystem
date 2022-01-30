@@ -24,6 +24,7 @@ from datetime import date
 # from datascience import *
 
 times_limit = 1
+delimVar = " ,"
 
 def Roster(exists):
     #Exists will choose difference between if a user has put a new roster file in or if there's already a config file from a previous use
@@ -34,12 +35,12 @@ def Roster(exists):
     #Have to change filename to a path maybe?
     if exists == False:
         # with open(os.path.join(sys.path[0], importAction()) , "r") as f:
-        with open(os.path.join(sys.path[0], "Samplefile.txt") , "r") as f:
+        with open(os.path.join(sys.path[0], "Samplefile.csv") , "r") as f:
         #with open(os.path.join(sys.path[0], filename) , "r") as f:
             f = f.readlines()
             for line in f:
                 #Appending each student and their info to a list
-                split_line=line.strip().split()
+                split_line=line.strip().split(delimVar)
                 AddStudent.append(split_line)
             #shuffling the list of student info
             random.shuffle(AddStudent)
@@ -138,6 +139,9 @@ def deck(StudentList, deckList, listIndex, ind):
     return deckList , StudentList
 
 def save_roster(filepath, StudentList, deckList):
+
+    global delimVar
+
     print(deckList)
     for i in range (0, len(deckList)):
         StudentList.append(deckList[i])
@@ -167,7 +171,8 @@ def save_roster(filepath, StudentList, deckList):
     with open(summaryname, "w") as summary:
         for Student in StudentList:
 #Student will grab information from one index of StudentList then go into output file
-            output = "{} {} {} {} {} {} {} {} {}".format(Student.times_called, Student.flag_count,Student.first,Student.last, Student.ID, Student.email, Student.phonetic, Student.reveal, date.today())
+            # output = "{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}".format(Student.times_called, Student.flag_count,Student.first,Student.last, Student.ID, Student.email, Student.phonetic, Student.reveal, date.today())
+            output = "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}".format(Student.times_called, delimVar, Student.flag_count, delimVar, Student.first, delimVar, Student.last, delimVar, Student.ID, delimVar, Student.email, delimVar, Student.phonetic, delimVar, Student.reveal, delimVar, date.today())
             output += "\n"
             summary.write(output)
             
@@ -194,6 +199,9 @@ def save_roster(filepath, StudentList, deckList):
 '''TEST FILE CREATE HERE'''
 
 def save_testRoster(filepath, StudentList, deckList):
+
+    global delimVar
+
     print(deckList)
     for i in range (0, len(deckList)):
         StudentList.append(deckList[i])
@@ -223,7 +231,8 @@ def save_testRoster(filepath, StudentList, deckList):
     with open(summaryname, "w") as summary:
         for Student in StudentList:
 #Student will grab information from one index of StudentList then go into output file
-            output = "{} {} {} {} {} {} {} {} {}".format(Student.times_called, Student.flag_count,Student.first,Student.last, Student.ID, Student.email, Student.phonetic, Student.reveal, date.today())
+            # output = "{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}".format(Student.times_called, Student.flag_count,Student.first,Student.last, Student.ID, Student.email, Student.phonetic, Student.reveal, date.today())
+            output = "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}".format(Student.times_called, delimVar, Student.flag_count, delimVar, Student.first, delimVar, Student.last, delimVar, Student.ID, delimVar, Student.email, delimVar, Student.phonetic, delimVar, Student.reveal, delimVar, date.today())
             output += "\n"
             summary.write(output)
             
