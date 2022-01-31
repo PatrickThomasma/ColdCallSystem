@@ -26,15 +26,6 @@ class Student:
         print("Student:\t",self.first, self.last, "ID:\t", self.ID,"Email adress:\t",self.email,"Phonetic_spelling:\t",self.phonetic,"Reveal code:",self.reveal,"LF:",self.LF)
 
 
-#class Flag():
- #   def __init__(self):
-  #      self.flagqueue = []
-#
-#    def is_flagged(self,flag,student):
-#	#This will add the student to a queue if they are flagged
- #       if flag==1:
-  #          self.flagqueue.append(student)
-#
 
 #Queue class will have us keep track of who is in queue and who is to be popped out next
 class Queue:

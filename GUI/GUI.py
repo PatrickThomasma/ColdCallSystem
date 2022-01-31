@@ -1,8 +1,8 @@
 """
 This will be the main GUI for students
 
-Author: Patrick Thomasma, David Han, Geli Zhang
-Last Modified: 01/27/2022
+Author: Patrick Thomasma, David Han
+Last Modified: 01/30/2022
 
 If on Linux Ubuntu use sudo apt-get install python3-tk for tkinter Module
 If using mac terminal, pip3 --version, pip3 install --upgrade pip, pip3 install tk
@@ -18,25 +18,14 @@ import sys
 from unittest import TestCase # for exit w esc
 from backend.objects import *
 from backend.roster import *
-# import backend.objects
-# import backend.roster
 
 from shutil import copy2
 
-# Test this list, then test sample file, then test through backened pull
-
-# exRandomList = ["AA", "AB", "AC", "AD"]
 #listIndex will keep track of which student the user currently has selected
 file_error = -1
 listIndex = 0
 
 testCheck = 0
-
-#Runs the window
-
-# def toggleStudent(n):
-#     toggle = Label(root, text=studentList[n])
-#     toggle.pack()
 
 #Realised that we needed to update the buttons after they're removed so it was made into its own function instead of making up/down large functions
 def update_button():
@@ -46,67 +35,27 @@ def update_button():
     for i in range(4):
         buttons[i].config({"text": DockList[i].first + ' ' + DockList[i].last})
 
-
-# def restart_program():
-#     '''Restarts the current program'''
-
-#     global root
-
-#     # print("In restart")
-#     # python = sys.executable
-#     # print(sys.executable)
-#     # print(sys.argv)
-#     # os.execl(python, python, * sys.argv)
-#     root.destroy()
-#     root = Tk()
-#     root.mainloop()
-
-# importedFileDir = None
-# importedFileName = None       
 def importAction():
     '''Obtain a user-selected file for import'''
-
     global root
-
     if messagebox.askokcancel("Import", "Please select the desired import file, then select the desired file location. A restart of the program will be required in order for changes to go into effect."):
 
         root.withdraw()
         rosterFile = filedialog.askopenfilename()
         fileLoc = filedialog.askdirectory()
         filename = os.path.basename(rosterFile)
-        if (filename == 'Samplefile.csv'):
+#pull the filename that user picks and compare it with the file that is already in the roster, if there's not file in directory then we will just continue
+        if (filename == 'StudentRoster.csv'):
             if messagebox.askokcancel("Test", "This will overwrite current Roster file, do you wish to proceed?"):
                 copy2(rosterFile, fileLoc, follow_symlinks=True)
-                # root.deiconify()
-                # root.destroy()
-                # messagebox.showinfo("Restart", "Import complete. Please restart the program.")
-                # restart_program()
         else:
             copy2(rosterFile, fileLoc, follow_symlinks=True)
-            # root.deiconify()
-            # root.destroy()
-            # messagebox.showinfo("Restart", "Import complete. Please restart the program.")
-            # restart_program()
         messagebox.showinfo("Restart", "Import complete. Please restart the program.")
         root.deiconify()
         root.destroy()
     
     else:
         messagebox.showinfo("Import", "Import cancelled")
-
-    # print("Selected: ", rosterFile)
-    # importedFileDir = rosterFile
-    # filename=os.path.basename(rosterFile)
-    # # print("filename: ", filename)
-    # immportedFileName = filename
-    # # return filename
-    # print(importedFileDir)
-    # print(importedFileName)
-
-# def exportAction(event = None):
-#     '''Save current roster data to a new text file'''
-#     newRosterFile = filedialog.askdirectory()
-#     explamefileasdas.write(os.path.join(newRosterFile, 'test.txt'))
 
 def testAction(event=None):
     '''Tests equal distribution of calls'''
@@ -119,16 +68,14 @@ def testAction(event=None):
 
     if messagebox.askokcancel("Test", "Are you sure about that, output files might be overwritten?"):
         for n in range(0, 100):
+#Create a random listindex and random flag occurance 
             dockInd = random.randint(0, 3)
             isFlag = random.randint(0, 1)
-            # DockList , StudentList = deck(StudentList, DockList, dockInd, isFlag)
             DockList , StudentList = deck(StudentList, DockList, dockInd, isFlag)
-            #print(n)
             update_button()
-    print("done")
+#testCheck will indicate to program to write into a different summaryfile than the official one
     testCheck = 1
     on_closing()
-    #have this make its own configs
 
 #Working up function but methods are kind of messy and obviously not finalized since its using a test version of FILE I/O
 def upKey(event):
@@ -137,19 +84,14 @@ def upKey(event):
     global DockList
     #With deck now full this function will instead remove the student, update flag, then return an update DockList and StudentList
     DockList , StudentList = deck(StudentList, DockList, listIndex , 1)
-    #the next person's name will appear after a delay of 1s
-    # time.sleep(1)
     update_button()
 
-#Not implemented yet
 def downKey(event):
     global listIndex
     global StudentList
     global DockList
     #Same as the upkey except the flags are not updated
     DockList, StudentList = deck(StudentList, DockList, listIndex, 0)
-    #the next person's name will appear after a delay of 1s
-    # time.sleep(1)
     update_button()
 
 
@@ -186,7 +128,6 @@ def exitWindow(event):
     if messagebox.askokcancel("Quit", "Do you want to quit?"):
         save_roster("SummaryPerformance.txt", StudentList, DockList)
         root.destroy()
-    #sys.exit()
 
 
 def on_closing():
@@ -200,22 +141,13 @@ def on_closing():
     if file_error == 1:
         root.destroy()
         sys.exit()
-
-    print("Testcheck flag: ", testCheck)
+#Ask user if they want to quit and if they didn't run a test then write into normal summary file, if they did write onto test summary file
     if messagebox.askokcancel("Quit", "Do you want to quit?"):
         if testCheck == 1:
             save_testRoster("SummaryPerformance_TEST.txt", StudentList, DockList)
         else:
             save_roster("SummaryPerformance.txt", StudentList, DockList)
         root.destroy()
-
-def flag(event): 
-    global listIndex
-    global StudentList
-    global DockList
-    #Same as Up function but just different Keys
-    DockList, StudentList = deck(StudentList,DockList, listIndex, 1)
-    update_button()
 
 '''
 StudentList = []
@@ -229,7 +161,7 @@ with open(os.path.join(sys.path[0], "Samplefile.txt"), "r") as f:
             StudentList.append(studentclass[0] + ' ' + studentclass[1])
             flags.append(int(studentclass[len(f)]))
 '''
-
+#Opens the TK functionality
 root = Tk()
 # root.geometry("900x100+300+850")
 root.geometry("900x110+300+0")
@@ -240,7 +172,7 @@ root.maxsize(900,110)
 '''Menu Setup'''
 menubar = Menu(root)
 root.config(menu=menubar)
-
+#Creating a menu drop down for user input
 file_menu = Menu(menubar, tearoff=False)
 file_menu.add_command(
     label='Import Roster',
@@ -263,8 +195,9 @@ menubar.add_cascade(
     underline=0
 )
 
-file_exists = os.path.exists("Samplefile.csv")
-file_exists2 = os.path.exists("/config/config.txt")
+file_exists = os.path.exists("StudentRoster.csv")
+file_exists2 = os.path.exists("config/config.txt")
+print(file_exists2)
 if (file_exists == False and file_exists2 == False):
 #If the program is not able to find a roster file in the directories than we will inform the user about it and give them a chance to import a file and restart the program 
     file_error = 1
@@ -284,17 +217,13 @@ else:
     Check = start_file("log.txt")
     if  Check == True:
 #If there is a config file then we run roster using that file
-        #print("hello")
         StudentList = Roster(True)
     else:
 #if not then we will use whatever roster file we were given
         StudentList = Roster(False)
 
-    print(file_exists2)
-
-    if file_exists2 == True:
-        if os.path.getmtime("Samplefile.csv") > os.path.getmtime("config/config.txt"):
-            print("Check")
+    if file_exists2 == True and file_exists == True:
+        if os.path.getmtime("StudentRoster.csv") > os.path.getmtime("config/config.txt"):
             StudentList = []
             StudentList = Roster(False)
 
@@ -352,10 +281,6 @@ else:
     root.bind("<Right>",rightKey)
     root.bind("<Up>",upKey)
     root.bind("<Down>",downKey)
-    root.bind("<Q>",flag)
-    root.bind("<W>",flag)
-    root.bind("<E>",flag)
-    root.bind("<R>",flag)
     root.protocol("WM_DELETE_WINDOW", on_closing)
 
     root.bind('<Escape>', exitWindow)

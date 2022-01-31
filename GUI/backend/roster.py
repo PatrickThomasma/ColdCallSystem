@@ -3,40 +3,34 @@ Our algorithm for picking a cold deck queue
 
 This file will import from a student class that will initialize student and Queue Objects
 
-Author: Patrick Thomasma
-Last modified: 01/25/2022
+This file will also handle file I/O that will take all input files and store them into Student class objects and also 
+will output performance summaries for the instructor to read after use of the program
+
+Author: Patrick Thomasma, David Han
+Last modified: 01/30/2022
 """
 #if you run this file first it will say no module named backend, just remove it for testing purposes since backend.objects is needed for the GUI.py file import
 # from backend.objects import Student, Queue
 from .objects import Student, Queue
-# import objects
-# from objects import Student, Queue
 
 import os.path
 import sys
 
-# sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-# import ..GUI
-
 import random
 from datetime import date
-# import numpy as np
-# from datascience import *
+
 
 times_limit = 1
 delimVar = ","      # either "," or "\t" for .csv and .txt respectively
 
 def Roster(exists):
     #Exists will choose difference between if a user has put a new roster file in or if there's already a config file from a previous use
-    #print("Does it exist?" ,exists)
     StudentList = []
     AddStudent=[]
     #function here will open file 
     #Have to change filename to a path maybe?
     if exists == False:
-        # with open(os.path.join(sys.path[0], importAction()) , "r") as f:
-        with open(os.path.join(sys.path[0], "Samplefile.csv") , "r") as f:
-        #with open(os.path.join(sys.path[0], filename) , "r") as f:
+        with open(os.path.join(sys.path[0], "StudentRoster.csv") , "r") as f:
             f = f.readlines()[1:] 
             for line in f:
                 #Appending each student and their info to a list
@@ -48,61 +42,21 @@ def Roster(exists):
             for i in range(0, len(AddStudent)):
                 StudentList.append(Student(AddStudent[i][0],AddStudent[i][1],AddStudent[i][2],AddStudent[i][3],AddStudent[i][4],AddStudent[i][5],AddStudent[i][6], False , int(AddStudent[i][7]), int(AddStudent[i][8]), int(AddStudent[i][9])))
 
-        #StudentList.sort(key = lambda x: x.last)
-        #for i in range (0,len(StudentList)):
-            #print(StudentList[i].first + " " + StudentList[i].last)
-        #sys.exit()
         return StudentList
     #This will do the asame thing as the above code block except will search for the configuration file instead and process that
     if exists == True:
         full_path = os.path.join(os.path.dirname(os.path.realpath(__file__)),"../config")
-        #file_location = os.path.join(full_path, "config.txt")
-        #print(file_location)
         with open(os.path.join(full_path, "config.txt"),  "r") as f:
-            #print(f.readline())
             f = f.readlines()
             for line in f:
                 split_line = line.strip().split()
-                #print(split_line)
                 AddStudent.append(split_line)
             random.shuffle(AddStudent)
             for i in range(0, len(AddStudent)):
                 StudentList.append(Student(AddStudent[i][0], AddStudent[i][1], AddStudent[i][2], AddStudent[i][3], AddStudent[i][4], AddStudent[i][5], AddStudent[i][6], False, int(AddStudent[i][7]), int(AddStudent[i][8]), int(AddStudent[i][9])))
         return StudentList 
 
-    # studentTable=Table.read_table("Samplefile.csv")
-    # first= studentTable.column("First Name")
-    # last= studentTable.column("Last Name")
-    # uoID= studentTable.column("UO ID")
-    # email= studentTable.column("Email")
-    # phone= studentTable.column("Phoetic Spelling")
-    # revealCode= studentTable.column("Reveal Code")
-    # lf= studentTable.column("LF")
-
-    # firstName=[]
-    # lastName=[]
-    # uo_id=[]
-    # emailList=[]
-    # phonetic=[]
-    # rc=[]
-    # lfList=[]
-
-    # for i in range(0,len(first)):
-    #     firstName.append(first[i])
-    #     lastName.append(last[i])
-    #     uo_id.append(uoID[i])
-    #     emailList.append(email[i])
-    #     phonetic.append(phone[i])
-    #     rc.append(revealCode[i])
-    #     lfList.append(lf[i])
-
-    # StudentList=[]
-    # for i in range(0,len(first)):
-    #     StudentList.append(Student(firstName[i],lastName[i],uo_id[i],emailList[i],phonetic[i],rc[i],lfList[i],0 , 0))
-    # return StudentList
-
 def deck(StudentList, deckList, listIndex, ind):
-    #random.shuffle(StudentList)
     global times_limit
     if (len(deckList) == 4): #When deck is full we just have to pop whatever index has been sent in then do the same as the for loop below
         current_student = deckList.pop(listIndex) #since deck is full we're going to pop whoever was called
@@ -115,7 +69,6 @@ def deck(StudentList, deckList, listIndex, ind):
         StudentList.append(current_student)
         for i in range (0, len(StudentList)):
 #Loop through StudentList to find someone that doesn't have a flag and add them back into Deck
-            #print("value of i " , len(deckList))
             if (StudentList[i].times_called < times_limit):
                 deckList.append(StudentList[i])
                 StudentList.pop(i)
@@ -142,14 +95,14 @@ def deck(StudentList, deckList, listIndex, ind):
 def save_roster(filepath, StudentList, deckList):
 
     global delimVar
-
-    #print(deckList)
     for i in range (0, len(deckList)):
         StudentList.append(deckList[i])
-        #deckList.pop()
 #Here we are saving three different information files, Log will be first and tell the user when the GUI was run and who was flagged during that instance
     StudentList.sort(key = lambda x: x.last)
     #The log file is saved into the config record, fullerpath will be for the summary review
+    #full path looks for directory of log.txt
+    #fuller path looks for directory of summary files
+    # roster paath looks for directory of roster file
     full_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "../config")
     fuller_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "../records")
     roster_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "../")
@@ -165,7 +118,6 @@ def save_roster(filepath, StudentList, deckList):
                 output += "\n"
                 roster.write(output)
         roster.close()
-    #start_file("SummaryPerformance.txt", 1)
     if not os.path.exists(fuller_path):
         os.mkdir(fuller_path)
 #Here is the summary review which will be overwritten after every use and update the values for Students
@@ -174,12 +126,9 @@ def save_roster(filepath, StudentList, deckList):
         output = "# Times Called,Flag Count,First Name,Last Name,UO ID,Email,Phoetic Spelling,Reveal Code,LF,Date\n"
         for Student in StudentList:
 #Student will grab information from one index of StudentList then go into output file
-            # output = "{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}".format(Student.times_called, Student.flag_count,Student.first,Student.last, Student.ID, Student.email, Student.phonetic, Student.reveal, date.today())
             output += "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}\n".format(Student.times_called, delimVar, Student.flag_count, delimVar, Student.first, delimVar, Student.last, delimVar, Student.ID, delimVar, Student.email, delimVar, Student.phonetic, delimVar, Student.reveal, delimVar, date.today())
-            # output += "\n"
         summary.write(output)
             
-        #sys.exit("List is done")
         summary.close()
     configname = os.path.join(full_path, "config.txt")
 #Configuration is the file we are searching for for when the instructor wants to use the program again with the same roster of students and it will keep track if the student was called during the last use
@@ -188,13 +137,25 @@ def save_roster(filepath, StudentList, deckList):
 #Since the time limit will be reset after everytime the program is used we will decrement everyone who has been called to 1 and everyone who hasn't been called yet to 0 
             if Student.times_called == times_limit:
                 Student.times_called = 1
-                #print(Student.total_called)
             elif Student.times_called < times_limit:
                 Student.times_called = 0
             output = "{} {} {} {} {} {} {} {} {} {}".format(Student.first, Student.last, Student.ID, Student.email, Student.phonetic, Student.reveal, Student.LF,Student.times_called, Student.flag_count, Student.total_called)
             output += "\n"
             config.write(output)
         config.close()
+
+    rostername = os.path.join(roster_path, "StudentRoster.csv")
+    with open(rostername, "w") as studentsroster:
+        output = "First Name, Last Name, UO ID, Email, Phoetic Spelling, Reveal Code, LF, times_called, total_called,flag_ct\n"
+        studentsroster.write(output)
+        studentsroster.close()
+    with open(rostername, "a") as studentsroster:
+        for Student in StudentList:
+            output = "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}".format(Student.first,delimVar,Student.last,delimVar,Student.ID,delimVar,Student.email,delimVar,Student.phonetic,delimVar,Student.reveal,delimVar,Student.LF,delimVar,Student.times_called,delimVar,Student.flag_count,delimVar,Student.total_called)
+            output += "\n"
+            studentsroster.write(output)
+        studentsroster.close()
+
     return
     
         #We will save roster informaiton here with times called and how many times are student was flagged
@@ -205,16 +166,15 @@ def save_testRoster(filepath, StudentList, deckList):
 
     global delimVar
 
-    #print(deckList)
     for i in range (0, len(deckList)):
         StudentList.append(deckList[i])
-        #deckList.pop()
 #Here we are saving three different information files, Log will be first and tell the user when the GUI was run and who was flagged during that instance
     StudentList.sort(key = lambda x: x.last)
     #The log file is saved into the config record, fullerpath will be for the summary review
     full_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "../config")
     fuller_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "../records")
     completename = os.path.join(full_path , "log.txt")
+    roster_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "../")
     with open(completename , "a") as roster:
         for Student in StudentList:
             if Student.flags == True:
@@ -226,7 +186,6 @@ def save_testRoster(filepath, StudentList, deckList):
                 output += "\n"
                 roster.write(output)
         roster.close()
-    #start_file("SummaryPerformance.txt", 1)
     if not os.path.exists(fuller_path):
         os.mkdir(fuller_path)
 #Here is the summary review which will be overwritten after every use and update the values for Students
@@ -235,12 +194,9 @@ def save_testRoster(filepath, StudentList, deckList):
         output = "# Times Called,Flag Count,First Name,Last Name,UO ID,Email,Phoetic Spelling,Reveal Code,LF,Date\n"
         for Student in StudentList:
 #Student will grab information from one index of StudentList then go into output file
-            # output = "{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}".format(Student.times_called, Student.flag_count,Student.first,Student.last, Student.ID, Student.email, Student.phonetic, Student.reveal, date.today())
             output += "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}\n".format(Student.times_called, delimVar, Student.flag_count, delimVar, Student.first, delimVar, Student.last, delimVar, Student.ID, delimVar, Student.email, delimVar, Student.phonetic, delimVar, Student.reveal, delimVar, date.today())
-            # output += "\n"
         summary.write(output)
             
-        #sys.exit("List is done")
         summary.close()
     configname = os.path.join(full_path, "config_TEST.txt")
 #Configuration is the file we are searching for for when the instructor wants to use the program again with the same roster of students and it will keep track if the student was called during the last use
@@ -249,20 +205,24 @@ def save_testRoster(filepath, StudentList, deckList):
 #Since the time limit will be reset after everytime the program is used we will decrement everyone who has been called to 1 and everyone who hasn't been called yet to 0 
             if Student.times_called == times_limit:
                 Student.times_called = 1
-                #print(Student.total_called)
             elif Student.times_called < times_limit:
                 Student.times_called = 0
             output = "{} {} {} {} {} {} {} {} {} {}".format(Student.first, Student.last, Student.ID, Student.email, Student.phonetic, Student.reveal, Student.LF,Student.times_called, Student.flag_count, Student.total_called)
             output += "\n"
             config.write(output)
         config.close()
-    rostername = os.path.join(roster_path, "Samplefile.csv")
-    with open(rostername, "w") as roster:
-        output = "First Name, Last Name, UO ID, Email, Phoetic Spelling, Reveal Code, LF, times_called, total_called,flag_ct\n"
+#Want to update also into the roster file since 
+    rostername = os.path.join(roster_path, "StudentRoster.csv")
+    with open(rostername, "w") as studentroster:
+        output = "# First Name, Last Name, UO ID, Email, Phoetic Spelling, Reveal Code, LF, times_called, total_called,flag_ct\n"
+        studentroster.write(output)
+        studentroster.close()
+    with open(rostername, "a") as studentroster:
         for Student in StudentList:
-            output += "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}\n".format(Student.first,delimVar,Student.last,delimVar,Student.ID,delimVar,Student.email,delimVar,Student.phonetic,delimVar,Student.reveal,delimVar,Student.LF,delimVar,Student.times_called,delimVar,Student.flag_count,delimVar,Student.total_called)
-            roster.write(output)
-        roster.close()
+            output = "{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}".format(Student.first,delimVar,Student.last,delimVar,Student.ID,delimVar,Student.email,delimVar,Student.phonetic,delimVar,Student.reveal,delimVar,Student.LF,delimVar,Student.times_called,delimVar,Student.flag_count,delimVar,Student.total_called)
+            output += "\n"
+            studentroster.write(output)
+        studentroster.close()
 
  
     return
@@ -276,6 +236,7 @@ def start_file(filepath):
     full_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "../config")
     if not os.path.exists(full_path):
         os.mkdir(full_path)
+    #create a directory for the configuration file
         file_location = os.path.join(full_path,'log.txt')
         with open(file_location, "a") as log:
             output = "----------------\nCold Call app opened on {}\n".format(date.today())
@@ -285,12 +246,10 @@ def start_file(filepath):
         with open(file_location, "a") as log:
             output = "----------------\nCold Call app opened on {}\n".format(date.today())
             log.write(output)
-
+#append into log.txt file
     file_exists = os.path.exists("config/config.txt")
-    #print(file_exists)
 #If a config file exists we will return True to the front end so we know that there's already information stored and we will use that instead of the roster file that was given by the user
     if file_exists == True:
-        #Roster(True)
         return True
     else:
         return False
@@ -298,14 +257,6 @@ def start_file(filepath):
 
     return
     #This will log the dates then information from save roster will come after
-
-#def main():
-#    StudentList = Roster() 
-#    return
-
-#if __name__ == "__main__":
-#    main()
-
 
 # EXPORT IDEA
 # prompt export in menu -> return config file by either
