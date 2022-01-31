@@ -88,6 +88,7 @@ def deck(StudentList, deckList, listIndex, ind):
         #print(StudentList)
         deckList.append(StudentList[i])
         StudentList.pop(i)
+
     #This will return decklist into GUI for example 
     #deckList = [Patrick Thomasma, Kassandra morando, David han, briana vago]
     return deckList , StudentList

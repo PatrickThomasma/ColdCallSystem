@@ -63,7 +63,8 @@ def testAction(event=None):
     global DockList
     
     global testCheck
-
+    StudentList = []
+    DockList = []
     StudentList = Roster(False)
 
     if messagebox.askokcancel("Test", "Are you sure about that, output files might be overwritten?"):
@@ -197,7 +198,6 @@ menubar.add_cascade(
 
 file_exists = os.path.exists("StudentRoster.csv")
 file_exists2 = os.path.exists("config/config.txt")
-print(file_exists2)
 if (file_exists == False and file_exists2 == False):
 #If the program is not able to find a roster file in the directories than we will inform the user about it and give them a chance to import a file and restart the program 
     file_error = 1
